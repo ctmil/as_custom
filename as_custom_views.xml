@@ -9,21 +9,24 @@
             <field name="arch" type="xml">
 		<xpath expr="//group[@name='account_grp']" position="after">
                     <group string="Notas Ordenes de Compra">
+			<field name="user_deliver_to" />
                         <field name="purchase_notes" nolabel="1" placeholder="Default terms &amp; conditions..."/>
                     </group>
                 </xpath>
             </field>
         </record>
-        <record model="ir.ui.view" id="purchase_order_form_as_custom">
-            <field name="name">purchase.order.form.as_custom</field>
-            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+
+        <!-- record id="purchase_order_form_view_as" model="ir.ui.view">
+            <field name="name">purchase.order.form.as.custom</field>
             <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
             <field name="arch" type="xml">
-		<field name="date_planned" position="before">
-                        <field name="deliver_to_id" />
-		</field>		
+		<field name="date_planned" position="after">
+			<field name="user_deliver_to" />
+		</field>
             </field>
-        </record>
+        </record -->
+
 
   </data>
 </openerp>
