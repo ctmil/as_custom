@@ -39,9 +39,10 @@
                     </tr>
                 </thead>
                 <tbody>
+		    <t t-set="i" t-value="1"/>
                     <tr t-foreach="o.order_line" t-as="order_line">
                         <td>
-                            <span t-field="order_line.line_number"/>
+                            <span t-esc="i"/> 
                         </td>
                         <td>
                             <span t-field="order_line.name"/>
@@ -53,6 +54,7 @@
                             <span t-field="order_line.product_qty"/>
                             <span t-field="order_line.product_uom" groups="product.group_uom"/>
                         </td>
+			<t t-set="i" t-value="i+1"/>
                     </tr>
                 </tbody>
             </table>
