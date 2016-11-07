@@ -37,7 +37,7 @@ class purchase_order(models.Model):
 	request_name = fields.Char(string='Requisicion',compute=_compute_request_name)
 	approver_id = fields.Many2one('res.users',string='Approver')
 
-class res_company(self):
+class res_company(models.Model):
 	_inherit = 'res.company'
 
 	purchase_notes = fields.Text(string='Purchase Notes')
