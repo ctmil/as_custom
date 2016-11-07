@@ -117,6 +117,7 @@
                             <td class="text-right">
                                 <span t-field="o.amount_tax" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
                             </td>
+			</tr>
                         <tr class="border-black">
                             <td><strong>Total</strong></td>
                             <td class="text-right">
