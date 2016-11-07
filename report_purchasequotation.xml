@@ -5,6 +5,25 @@
     <t t-call="report.external_layout">
         <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})"/>
         <div class="page">
+		
+	    <div class="header">
+	        <div class="row">
+        	    <div class="col-xs-3">
+	                <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 45px;"/>
+        	    </div>
+	            <div class="col-xs-9 text-right" style="margin-top:20px;" t-field="company.rml_header1"/>
+        	</div>
+	        <div class="row zero_min_height">
+        	    <div class="col-xs-12">
+                	<div style="border-bottom: 1px solid black;"/>
+	            </div>
+        	</div>
+	        <div class="row">
+        	    <div class="col-xs-3" name="company_address">
+                	<div t-field="company.partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: true}" style="border-bottom: 1px solid black;"/>
+	            </div>
+        	</div>
+	    </div>
             <div class="oe_structure"/>
 
             <div class="row mt32 mb32">
@@ -140,12 +159,10 @@
             <p t-field="o.notes"/>
 
 	    <div t-if="o.company_id.purchase_notes">
-		    <div class="row">
-	                <div class="col-xs-12">
-				<span t-field="o.company_id.purchase_notes" />
-			</div>
-		    </div>
+		<p t-field="o.company_id.purchase_notes" />
 	    </div>
+
+  	    <p>IMPORTANTE ! Sr. Proveedor, tenga presente: El número de ésta orden de compra debe aparecer en todas los documentos (factura/s, remito/s, etc.) y/o correspondencia/s relacionados con los artículos / productos / servicios incluidos en la presente.</p>
 	   
 
             <div class="oe_structure"/>
