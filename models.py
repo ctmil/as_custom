@@ -25,5 +25,19 @@ class purchase_order(models.Model):
 			return_value = ','.join(request_names)
 		self.request_name = return_value
 
-	request_name = fields.Char(string='Requisicion',compute=_compute_request_name)
+	@api.multi
+	def button_approve(self):
+		vals = {
+			'approver_id': self.env.context['uid']
+			}
+		self.write(vals)
+		return super(purchase_order, self).button_approve()
 
+
+	request_name = fields.Char(string='Requisicion',compute=_compute_request_name)
+	approver_id = fields.Many2one('res.users',string='Approver')
+
+class res_company(self):
+	_inherit = 'res.company'
+
+	purchase_notes = fields.Text(string='Purchase Notes')
