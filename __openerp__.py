@@ -22,7 +22,7 @@
     "author": "Eficent",
     "website": "www.eficent.com",
     "category": "Generic Modules/Projects & Services",
-    "depends": ["base","project","analytic","account","purchase","product_brand","purchase_discount","purchase_request_to_rfq"],
+    "depends": ["base","project","analytic","account","purchase","product_brand","purchase_discount","purchase_request_to_rfq","base_vat"],
     "init_xml": [],
     "data": [
 	'purchase_report.xml',

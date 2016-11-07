@@ -10,10 +10,11 @@
             <div class="row mt32 mb32">
                 <div class="col-xs-4">
                     <strong>Facturar a:</strong>
-                    <div t-if="o.company_id">
-                        <div t-field="o.company_id"
+                    <div t-if="o.company_id.partner_id">
+                        <div t-field="o.company_id.partner_id"
                             t-field-options='{"widget": "contact", "fields": ["address", "name", "phone", "fax"], "no_marker": true, "phone_icons": true}'/>
                     </div>
+                    <p t-if="o.company_id.partner_id.vat">CUIT: <span t-field="o.company_id.partner_id.vat"/></p>
 		</div>
                 <div class="col-xs-4">
                     <strong>Dirección envio:</strong>
@@ -27,7 +28,7 @@
                             t-field-options='{"widget": "contact", "fields": ["address", "phone", "fax"], "no_marker": true, "phone_icons": true}'/>
                     </div>
                 </div>
-                <div class="col-xs-4 col-xs-offset-1">
+                <div class="col-xs-4">
                     <strong>Proveedor:</strong>
                     <div t-field="o.partner_id"
                         t-field-options='{"widget": "contact", "fields": ["address", "name", "phone", "fax"], "no_marker": true, "phone_icons": true}'/>
