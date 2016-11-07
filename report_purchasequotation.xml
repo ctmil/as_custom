@@ -45,8 +45,8 @@
 		</div>
                 <div class="col-xs-2">
                     <strong>Requisición</strong>
-                    <div t-if="o.date_planned">
-			<span t-field="o.date_planned" />
+		    <div t-if="o.request_name">
+			    <span t-field="o.request_name" />
 		    </div>
 		</div>
 	    </div>
