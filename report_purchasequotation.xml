@@ -30,6 +30,27 @@
 
             <h2>Pedido de Presupuesto<span t-field="o.name"/></h2>
 
+            <div class="row mt32 mb32">
+                <div class="col-xs-2">
+                    <strong>Fecha</strong>
+                    <div t-if="o.date_order">
+			<span t-field="o.date_order" />
+		    </div>
+		</div>
+                <div class="col-xs-2">
+                    <strong>Fecha Límite</strong>
+                    <div t-if="o.date_planned">
+			<span t-field="o.date_planned" />
+		    </div>
+		</div>
+                <div class="col-xs-2">
+                    <strong>Requisición</strong>
+                    <div t-if="o.date_planned">
+			<span t-field="o.date_planned" />
+		    </div>
+		</div>
+	    </div>
+
             <table class="table table-condensed">
                 <thead>
                     <tr>
