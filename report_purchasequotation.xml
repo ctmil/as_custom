@@ -37,6 +37,7 @@
                         <th><strong>Marca</strong></th>
                         <th class="text-right"><strong>Cant.</strong></th>
                         <th class="text-right"><strong>$ Unit.</strong></th>
+                        <th class="text-right"><strong>% Dto.</strong></th>
                         <th class="text-right"><strong>$ Total</strong></th>
                     </tr>
                 </thead>
@@ -58,6 +59,9 @@
                         </td>
                         <td class="text-right">
                             <span t-field="order_line.price_unit"/>
+                        </td>
+                        <td class="text-right">
+                            <span t-field="order_line.discount"/>
                         </td>
                         <td class="text-right">
                             <span t-field="order_line.price_total"/>
