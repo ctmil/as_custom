@@ -36,6 +36,7 @@ class purchase_order(models.Model):
 
 	request_name = fields.Char(string='Requisicion',compute=_compute_request_name)
 	approver_id = fields.Many2one('res.users',string='Approver')
+	deliver_to_id = fields.Many2one('res.users',string='Entregar a')
 
 class res_company(models.Model):
 	_inherit = 'res.company'
