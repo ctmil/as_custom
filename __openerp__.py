@@ -26,7 +26,8 @@
     "init_xml": [],
     "data": [
 	'purchase_report.xml',
-	'report_purchasequotation.xml'
+	'report_purchasequotation.xml',
+	'as_custom_views.xml'
     ],
     'demo_xml': [
     ],
