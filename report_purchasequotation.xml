@@ -132,8 +132,11 @@
             <p t-field="o.notes"/>
 
 	    <div t-if="o.company_id.purchase_notes">
-		<p t-field="o.company_id.purchase_notes" />
+		    <div class="row">
+			<span t-field="o.company_id.purchase_notes" />
+		    </div>
 	    </div>
+	   
 
             <div class="oe_structure"/>
         </div>
