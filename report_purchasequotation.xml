@@ -35,8 +35,9 @@
                         <th><strong>IT</strong></th>
                         <th><strong>Detalle</strong></th>
                         <th><strong>Marca</strong></th>
-                        <th class="text-center"><strong>Expected Date</strong></th>
-                        <th class="text-right"><strong>Qty</strong></th>
+                        <th class="text-right"><strong>Cant.</strong></th>
+                        <th class="text-right"><strong>$ Unit.</strong></th>
+                        <th class="text-right"><strong>$ Total</strong></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -51,12 +52,15 @@
                         <td>
                             <span t-field="order_line.product_id.product_tmpl_id.product_brand_id.name"/>
                         </td>
-                        <td class="text-center">
-                            <span t-field="order_line.date_planned"/>
-                        </td>
                         <td class="text-right">
                             <span t-field="order_line.product_qty"/>
                             <span t-field="order_line.product_uom" groups="product.group_uom"/>
+                        </td>
+                        <td class="text-right">
+                            <span t-field="order_line.price_unit"/>
+                        </td>
+                        <td class="text-right">
+                            <span t-field="order_line.price_total"/>
                         </td>
 			<t t-set="i" t-value="i+1"/>
                     </tr>
