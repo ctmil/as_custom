@@ -25,6 +25,7 @@
     "depends": ["project","analytic","account","purchase"],
     "init_xml": [],
     "update_xml": [
+	'purchase_report.xml',
 	'report_purchasequotation.xml'
     ],
     'demo_xml': [
