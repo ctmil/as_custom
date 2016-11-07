@@ -17,9 +17,12 @@ class purchase_order(models.Model):
 	@api.one
 	def _compute_request_name(self):
 		return_value = ''
+		request_names = []
 		for line in self.order_line:
 			if line.purchase_request_lines:
-				import pdb;pdb.set_trace()
+				request_names.append(line.purchase_request_lines.request_id.name)
+		if request_names:
+			return_value = ','.join(request_names)
 		self.request_name = return_value
 
 	request_name = fields.Char(string='Requisicion',compute=_compute_request_name)
