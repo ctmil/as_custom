@@ -32,6 +32,7 @@
             <table class="table table-condensed">
                 <thead>
                     <tr>
+                        <th><strong>IT</strong></th>
                         <th><strong>Description</strong></th>
                         <th class="text-center"><strong>Expected Date</strong></th>
                         <th class="text-right"><strong>Qty</strong></th>
@@ -39,6 +40,9 @@
                 </thead>
                 <tbody>
                     <tr t-foreach="o.order_line" t-as="order_line">
+                        <td>
+                            <span t-field="order_line.line_number"/>
+                        </td>
                         <td>
                             <span t-field="order_line.name"/>
                         </td>
