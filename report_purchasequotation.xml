@@ -5,13 +5,13 @@
     <t t-call="report.external_layout">
         <div class="page">
 
-	    <div class="row mt32 mb32">	
+	    <div class="row mt32 mb32" style="border-bottom: 1px solid black;">	
 		    <div t-if="o.company_id.parent_id" class="header">
         		    <div class="col-xs-1">
 	                	<img t-if="o.company_id.parent_id.logo" t-att-src="'data:image/png;base64,%s' % o.company_id.parent_id.logo" style="max-height: 45px;"/>
 	        	    </div>
 	        	    <div class="col-xs-3" name="company_address">
-        	        	<div t-field="o.company_id.parent_id.partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: true}" style="border-bottom: 1px solid black;"/>
+        	        	<div t-field="o.company_id.parent_id.partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: true}" />
 	        	    </div>
 		    </div>
 		    <div class="col-xs-8">
