@@ -177,9 +177,7 @@
 		</div>
 	    </div>
 
-	    <div class="row mt32 mb32">
-		<p>Por <span t-field="o.company_id.parent_id.name" />, preparado por <span t-field="o.create_uid.name" /></p>
-	    </div>
+	    <p>Por <span t-field="o.company_id.parent_id.name" />, preparado por <span t-field="o.create_uid.name" /></p>
 
             <div class="oe_structure"/>
         </div>
