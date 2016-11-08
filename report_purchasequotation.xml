@@ -55,25 +55,31 @@
 
 
             <div class="row mt32 mb32">
-                <div class="col-xs-3">
+                <div class="col-xs-2">
                     <strong>Fecha</strong>
                     <div t-if="o.date_order">
 			<span t-field="o.date_order" />
 		    </div>
 		</div>
-                <div class="col-xs-3">
+                <div class="col-xs-2">
                     <strong>Fecha Límite</strong>
                     <div t-if="o.date_planned">
 			<span t-field="o.date_planned" />
 		    </div>
 		</div>
-                <div class="col-xs-3">
+                <div class="col-xs-2">
                     <strong>Requisición</strong>
 		    <div t-if="o.request_name">
 			    <span t-field="o.request_name" />
 		    </div>
 		</div>
-                <div class="col-xs-3">
+                <div class="col-xs-2">
+                    <strong>Ref.Proveedor</strong>
+		    <div t-if="o.partner_ref">
+			    <span t-field="o.partner_ref" />
+		    </div>
+		</div>
+                <div class="col-xs-2">
                     <strong>Aprobado por</strong>
 		    <div t-if="o.approver_id">
 			    <span t-field="o.approver_id" />
