@@ -42,3 +42,8 @@ class res_company(models.Model):
 
 	purchase_notes = fields.Text(string='Purchase Notes')
 	user_deliver_to = fields.Many2one('res.users',string='Entregar a')
+
+class purchase_request_line(models.Model):
+	_inherit = 'purchase.request.line'
+
+	brand_id = fields.Many2one('product.brand',string='Marca',related="product_id.product_tmpl_id.brand_id.id")

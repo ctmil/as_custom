@@ -16,16 +16,16 @@
             </field>
         </record>
 
-        <!-- record id="purchase_order_form_view_as" model="ir.ui.view">
-            <field name="name">purchase.order.form.as.custom</field>
-            <field name="model">purchase.order</field>
-            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <record id="purchase_request_form_view_as" model="ir.ui.view">
+            <field name="name">purchase.request.form.as.custom</field>
+            <field name="model">purchase.request</field>
+            <field name="inherit_id" ref="purchase_request.view_purchase_request_form"/>
             <field name="arch" type="xml">
-		<field name="date_planned" position="after">
-			<field name="user_deliver_to" />
+		<field name="product_qty" position="before">
+			<field name="brand_id" />
 		</field>
             </field>
-        </record -->
+        </record>
 
 
   </data>
