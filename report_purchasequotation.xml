@@ -58,13 +58,13 @@
                 <div class="col-xs-2">
                     <strong>Fecha</strong>
                     <div t-if="o.date_order">
-			<span t-field="o.date_order" t-field-options='{"format": "dd MM y"}'/>
+			<span t-field="o.date_order" t-field-options='{"format": "dd/MM/y"}'/>
 		    </div>
 		</div>
                 <div class="col-xs-2">
                     <strong>Fecha Límite</strong>
                     <div t-if="o.date_planned">
-			<span t-field="o.date_planned" />
+			<span t-field="o.date_planned" t-field-options='{"format": "dd/MM/y"}'/>
 		    </div>
 		</div>
                 <div class="col-xs-2">
