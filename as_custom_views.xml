@@ -52,5 +52,16 @@
             </field>
         </record>
 
+        <record id="purchase_order_form_as_custom" model="ir.ui.view">
+            <field name="name">purchase.order.form.as.custom</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+		<field name="product_id" position="after">
+			<field name="brand_id" />
+		</field>
+            </field>
+        </record>
+
   </data>
 </openerp>

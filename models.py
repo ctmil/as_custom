@@ -47,3 +47,14 @@ class purchase_request_line(models.Model):
 	_inherit = 'purchase.request.line'
 
 	brand_id = fields.Many2one('product.brand',string='Marca',related="product_id.product_tmpl_id.product_brand_id")
+
+class stock_move(models.Model):
+	_inherit = 'stock.move'
+
+	brand_id = fields.Many2one('product.brand',string='Marca',related="product_id.product_tmpl_id.product_brand_id")
+
+class purchase_order_line(models.Model):
+	_inherit = 'purchase.order.line'
+
+	brand_id = fields.Many2one('product.brand',string='Marca',related="product_id.product_tmpl_id.product_brand_id")
+		
