@@ -123,5 +123,17 @@
         <menuitem name="Inventario" id="menu_purchase_inventory" parent="purchase.menu_procurement_management" 
 		action="action_view_purchase_inventory" />
 
+	<!-- Movimientos de stock -->
+        <record id="action_view_purchase_stock_picking" model="ir.actions.act_window">
+            <field name="name">Movimientos de stock</field>
+            <field name="res_model">stock.picking</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <!-- field name="context">{'search_default_productgroup': 1,'search_default_locationgroup': 4}</field -->
+        </record>
+	
+        <menuitem name="Movimientos stock" id="menu_purchase_stock_picking" parent="purchase.menu_procurement_management" 
+		action="action_view_purchase_stock_picking" />
+
   </data>
 </openerp>
