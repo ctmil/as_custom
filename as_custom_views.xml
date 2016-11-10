@@ -52,6 +52,7 @@
             </field>
         </record>
 
+	<!-- purchase order -->
         <record id="purchase_order_form_as_custom" model="ir.ui.view">
             <field name="name">purchase.order.form.as.custom</field>
             <field name="model">purchase.order</field>
@@ -60,6 +61,18 @@
 		<field name="product_id" position="after">
 			<field name="brand_id" />
 		</field>
+            </field>
+        </record>
+
+        <record id="purchase_order_form_as_custom_obra" model="ir.ui.view">
+            <field name="name">purchase.order.form.as.custom.obra</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+	    <field name="groups_id" eval="[(6, 0, [ref('as_custom.group_personal_obra') ])]"/>
+            <field name="arch" type="xml">
+		<button name="action_rfq_send"  position="attributes">
+			<attribute name="invisible">1</attribute>
+		</button>
             </field>
         </record>
 
