@@ -16,6 +16,7 @@
             </field>
         </record>
 
+	<!-- purchase request -->
         <record id="purchase_request_form_view_as" model="ir.ui.view">
             <field name="name">purchase.request.form.as.custom</field>
             <field name="model">purchase.request</field>
@@ -38,6 +39,18 @@
             </field>
         </record>
 
+        <record id="purchase_request_line_search_as_custom" model="ir.ui.view">
+            <field name="name">purchase.request.line.search.as.custom</field>
+            <field name="model">purchase.request.line</field>
+            <field name="inherit_id" ref="purchase_request.purchase_request_line_search"/>
+            <field name="arch" type="xml">
+		<field name="product_id" position="after">
+			<field name="brand_id" />
+		</field>
+            </field>
+        </record>
+
+	<!-- stock.move -->
         <record id="view_move_tree_receipt_picking_as_custom" model="ir.ui.view">
             <field name="name">view.move.tree.receipt.picking.custom</field>
             <field name="model">stock.move</field>
