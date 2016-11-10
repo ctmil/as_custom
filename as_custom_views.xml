@@ -142,7 +142,7 @@
             <field name="arch" type="xml">
 		<button name="show_details" position="before">
 			<button name="complete_qty_done" string="Completar" type="object" 
-				icon="fa-pencil" groups="stock.group_locations" states="confirmed,assigned,waiting,partially_available"/>
+				icon="fa-check" groups="stock.group_locations" states="confirmed,assigned,waiting,partially_available"/>
 		</button>
 	    </field>
 	</record>
