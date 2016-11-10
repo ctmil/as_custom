@@ -135,5 +135,17 @@
         <menuitem name="Movimientos stock" id="menu_purchase_stock_picking" parent="purchase.menu_procurement_management" 
 		action="action_view_purchase_stock_picking" />
 
+        <record id="stock_picking_form_as_custom" model="ir.ui.view">
+            <field name="name">stock.picking.form.as.custom</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+		<button name="show_details" position="before">
+			<button name="complete_qty_done" string="Completar" type="object" 
+				icon="fa-pencil" groups="stock.group_locations" states="confirmed,assigned,waiting,partially_available"/>
+		</butto>
+	    </field>
+	</record>
+
   </data>
 </openerp>
