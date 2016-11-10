@@ -61,6 +61,8 @@ class purchase_order_line(models.Model):
 class stock_pack_operation(models.Model):
 	_inherit = 'stock.pack.operation'
 
+	brand_id = fields.Many2one('product.brand',string='Marca',related="product_id.product_tmpl_id.product_brand_id")
+
 	@api.one
 	def complete_qty_done(self):
 		if self.product_qty:

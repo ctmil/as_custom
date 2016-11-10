@@ -144,6 +144,9 @@
 			<button name="complete_qty_done" string="Completar" type="object" 
 				icon="fa-check" groups="stock.group_locations" states="confirmed,assigned,waiting,partially_available"/>
 		</button>
+		<field name="product_id" position="after">
+			<field name="brand_id" />
+		</field>
 	    </field>
 	</record>
 
