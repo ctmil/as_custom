@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.module.category" id="module_category_personal_obra">
+            <field name="name">Personal Obra</field>
+            <field name="parent_id" ref="base.module_category_purchase_management"/>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="group_personal_obra" model="res.groups">
+                <field name="name">Personal Obra</field>
+                <field name="category_id" ref="module_category_personal_obra"/>
+                <field name="comment">Personal Obra.</field>
+                <field name="implied_ids" eval="[(4, ref('purchase_request.group_purchase_request_user')),
+						 (4, ref('stock.group_stock_user'))]"/>
+        </record>
+
+        <record id="group_supervisor_obra" model="res.groups">
+                <field name="name">Supervisor Obra</field>
+                <field name="category_id" ref="module_category_personal_obra"/>
+                <field name="comment">Supervisor Obra.</field>
+                <field name="implied_ids" eval="[(4, ref('group_personal_obra'))]"/>
+        </record>
+
+        <record id="group_manager_obra" model="res.groups">
+                <field name="name">Manager Obra</field>
+                <field name="category_id" ref="module_category_personal_obra"/>
+                <field name="comment">Manager Obra.</field>
+                <field name="implied_ids" eval="[(4, ref('purchase_request.group_purchase_request_manager'))]"/>
+        </record>
+
+    </data>
+</openerp>
+
