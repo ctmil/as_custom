@@ -67,3 +67,8 @@ class stock_pack_operation(models.Model):
 	def complete_qty_done(self):
 		if self.product_qty:
 			self.qty_done = self.product_qty
+
+class stock_quant(models.Model):
+	_inherit = 'stock.quant'
+
+	brand_id = fields.Many2one('product.brand',string='Marca',related="product_id.product_tmpl_id.product_brand_id")
