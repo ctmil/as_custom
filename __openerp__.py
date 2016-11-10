@@ -25,7 +25,9 @@
     "data": [
 	'purchase_report.xml',
 	'report_purchasequotation.xml',
-	'as_custom_views.xml'
+	'as_custom_views.xml',
+	'security/security.xml',
+	'security/ir.model.access.csv'
     ],
     'demo_xml': [
     ],

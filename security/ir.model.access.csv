@@ -1,2 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_personal_obra_stock_move,stock.move personal_obra,stock.model_stock_move,as_custom.group_personal_obra,1,0,0,0
+access_personal_obra_purchase_order,purchase.order personal_obra,purchase.model_purchase_order,as_custom.group_personal_obra,1,0,0,0
+access_personal_obra_purchase_order_line,purchase.order_line personal_obra,purchase.model_purchase_order_line,as_custom.group_personal_obra,1,0,0,0
