@@ -85,6 +85,12 @@
 		<button name="button_cancel" position="attributes">
 			<attribute name="invisible">1</attribute>
 		</button>
+		<button name="button_done" position="attributes">
+			<attribute name="invisible">1</attribute>
+		</button>
+		<button name="action_rfq_send" states="purchase" position="attributes">
+			<attribute name="invisible">1</attribute>
+		</button>
             </field>
         </record>
 
