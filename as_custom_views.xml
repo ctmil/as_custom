@@ -83,9 +83,9 @@
             <field name="inherit_id" ref="purchase.purchase_order_form"/>
 	    <field name="groups_id" eval="[(6, 0, [ref('as_custom.group_personal_obra') ])]"/>
             <field name="arch" type="xml">
-		<!-- button name="action_rfq_send" states="cancel" position="attributes">
+		<button name="button_draft" states="cancel" position="attributes">
 			<attribute name="invisible">1</attribute>
-		</button -->
+		</button>
 		<button name="action_rfq_send" states="purchase" position="attributes">
 			<attribute name="invisible">1</attribute>
 		</button>
