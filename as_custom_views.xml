@@ -78,7 +78,7 @@
 			<field name="brand_id" />
 		</field>
 		<field name="partner_ref" position="after">
-			<field name="partner_ref" />
+			<field name="nro_remito" />
 		</field>
             </field>
         </record>
