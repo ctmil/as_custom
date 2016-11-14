@@ -27,7 +27,6 @@ class product_product(models.Model):
                 return data
 
 
-
 class purchase_order(models.Model):
 	_inherit = 'purchase.order'
 
@@ -143,3 +142,32 @@ class stock_quant(models.Model):
 	_inherit = 'stock.quant'
 
 	brand_id = fields.Many2one('product.brand',string='Marca',related="product_id.product_tmpl_id.product_brand_id")
+
+class purchase_request(models.Model):
+	_inherit = 'purchase.request'
+
+
+	@api.multi
+	def button_approved(self):
+		res = super(purchase_request, self).button_approved()
+		emails = []
+		users = self.env['res.users'].search([])
+		for user in users:
+			if user.has_group('purchase.group_purchase_user'):
+				emails.append([user.email,self.name,user.name])
+		if emails:
+			for email in emails:
+                                subject = 'Requerimiento ' + email[1] + ' fue aprobado'
+                                body = 'Estimado/a ' + email[2] + '\n'
+       	                        body += 'El requerimiento ' + email[1] + 'fue aprobado'
+				body_html = '<p>Requerimiento ' + email[1] + ' fue aprobado''</p>'
+                                email_to = email[0]
+       	                        vals = {
+               	                        'body': body,
+                       	                'body_html': body_html,
+                               	        'subject': subject,
+                                       	'email_to': email_to
+                                        }
+       	                        msg = self.env['mail.mail'].create(vals)
+		return res
+
