@@ -87,7 +87,7 @@ class purchase_request_line(models.Model):
 	brand_id = fields.Many2one('product.brand',string='Marca',related="product_id.product_tmpl_id.product_brand_id")
 	line_status = fields.Selection(selection=[('not_match_delivery','Entregas no coinciden'),('match_delivery','Entregas coinciden'),\
 						('match_po','Coinciden cantidades con PO'),('not_match_po','No coinciden cantidades con PO')],\
-					compute=_compute_line_status)
+					compute=_compute_line_status,store=True,string='Estado del requerimiento')
 
 class stock_move(models.Model):
 	_inherit = 'stock.move'
