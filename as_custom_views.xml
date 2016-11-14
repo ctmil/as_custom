@@ -47,6 +47,7 @@
             <field name="arch" type="xml">
 		<field name="product_id" position="after">
 			<field name="brand_id" />
+			<field name="line_status" />
 		</field>
             </field>
         </record>
