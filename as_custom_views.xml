@@ -24,6 +24,7 @@
             <field name="arch" type="xml">
 		<field name="product_qty" position="before">
 			<field name="brand_id" />
+			<field name="line_status" />
 		</field>
             </field>
         </record>
