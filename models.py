@@ -86,7 +86,7 @@ class purchase_order(models.Model):
 		return res
 
 	@api.one
-	def _comput_nro_remito(self):
+	def _compute_nro_remito(self):
 		if self.picking_ids:
 			remitos = []
 			for picking_id in self.picking_ids:
