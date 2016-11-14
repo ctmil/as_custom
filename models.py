@@ -11,14 +11,13 @@ from openerp.fields import Date as newdate
 #Get the logger
 _logger = logging.getLogger(__name__)
 
-class product_template(models.Model):
-	_inherit = 'product.template'
+class product_product(models.Model):
+	_inherit = 'product.product'
 
         @api.multi
         def name_get(self):
-                res = super(product_template,self).name_get()
+                res = super(product_product,self).name_get()
                 data = []
-                min_qty = 0
                 for product in self:
                         # import pdb;pdb.set_trace()
                         #if partnerinfo.min_quantity > min_qty:
@@ -26,10 +25,10 @@ class product_template(models.Model):
                         #       min_qty = partnerinfo.min_quantity
                         #else:
                         #       display_value = 'QTA BREAKPOINT ' + str(partnerinfo.min_quantity) + ' LEADTIME ' + str(partnerinfo.leadtime)
-                        if product.product_brand_id:
-                                display_value = product.product_brand_id.strip()
+                        if product.product_tmpl_id.product_brand_id:
+                                display_value = product.product_tmpl_id.product_brand_id.name.strip()
                         else:
-                                display_value = product.product_brand_id.strip()
+                                display_value = product.product_tmpl_id.product_brand_id.name.strip()
                         data.append((product.id,display_value))
                 return data
 
