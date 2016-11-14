@@ -26,9 +26,9 @@ class product_product(models.Model):
                         #else:
                         #       display_value = 'QTA BREAKPOINT ' + str(partnerinfo.min_quantity) + ' LEADTIME ' + str(partnerinfo.leadtime)
                         if product.product_tmpl_id.product_brand_id:
-                                display_value = product.product_tmpl_id.product_brand_id.name.strip()
+                                display_value = '[' + product.product_tmpl_id.product_brand_id.name.strip() + ']' + product.name
                         else:
-                                display_value = product.product_tmpl_id.product_brand_id.name.strip()
+                                display_value = product.name
                         data.append((product.id,display_value))
                 return data
 
