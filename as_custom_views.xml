@@ -205,6 +205,9 @@
 		<field name="product_id" position="after">
 			<field name="brand_id" />
 		</field>
+		<field name="origin" position="after">
+			<field name="nro_remito" />
+		</field>
 	    </field>
 	</record>
 

@@ -85,11 +85,21 @@ class purchase_order(models.Model):
 
 		return res
 
+	@api.one
+	def _comput_nro_remito(self):
+		if self.picking_ids:
+			remitos = []
+			for picking_id in self.picking_ids:
+				if picking_id.nro_remito:
+					remitos.append(picking_id.nro_remito)
+			if remitos:
+				self.nro_remito = ','.join(remitos)
+
 
 
 	request_name = fields.Char(string='Requisicion',compute=_compute_request_name)
 	approver_id = fields.Many2one('res.users',string='Approver')
-	nro_remito = fields.Char('Nro.Remito')
+	nro_remito = fields.Char('Nro.Remito',compute=_compute_nro_remito)
 
 class res_company(models.Model):
 	_inherit = 'res.company'
@@ -172,3 +182,7 @@ class purchase_request(models.Model):
        	                        msg = self.env['mail.mail'].create(vals)
 		return res
 
+class stock_picking(models.Model):
+	_inherit = 'stock.picking'
+
+	nro_remito = fields.Char('Nro.Remito')
