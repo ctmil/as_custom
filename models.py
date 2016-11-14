@@ -14,6 +14,12 @@ _logger = logging.getLogger(__name__)
 class purchase_order(models.Model):
 	_inherit = 'purchase.order'
 
+	@api.multi
+	def print_quotation(self):
+		self.write({'state': "sent"})
+		return self.env['report'].get_action(self, 'as_custom.report_purchasequotation')
+
+
 	@api.one
 	def _compute_request_name(self):
 		return_value = ''
