@@ -20,7 +20,8 @@ class purchase_order(models.Model):
 		request_names = []
 		for line in self.order_line:
 			if line.purchase_request_lines:
-				request_names.append(line.purchase_request_lines.request_id.name)
+				if line.purchase_request_lines.request_id.name not in request_names:
+					request_names.append(line.purchase_request_lines.request_id.name)
 		if request_names:
 			return_value = ','.join(request_names)
 		self.request_name = return_value
