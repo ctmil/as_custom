@@ -57,6 +57,36 @@ class purchase_order(models.Model):
 		self.write(vals)
 		return super(purchase_order, self).button_approve()
 
+	@api.multi
+	def button_confirm(self):
+		res = super(purchase_order, self).button_confirm()
+		emails = []
+		if self.order_line:
+			emails = []
+			for line in self.order_line:
+				if line.purchase_request_lines:
+					rq_lines = line.purchase_request_lines:
+					for rq_line in rq_lines:
+						user = self.env['res.users'].browse(rq_line.create_uid)
+						emails.append([user.email,rq_line.request_id.name,user.name])
+			if emails:
+				for email in emails:
+	                                subject = 'Requerimiento ' + email[1] + ' fue aprobado'
+	                                body = 'Estimado/a ' + email[2] + '\n'
+        	                        body += 'El requerimiento ' + email[1] + 'fue aprobado'
+					body_html = '<p>Requerimiento ' + email[1] + ' fue aprobado''</p>'
+	                                email_to = email[0]
+        	                        vals = {
+                	                        'body': body,
+                        	                'body_html': body_html,
+                                	        'subject': subject,
+                                        	'email_to': email_to
+	                                        }
+        	                        msg = self.env['mail.mail'].create(vals)
+
+		return res
+
+
 
 	request_name = fields.Char(string='Requisicion',compute=_compute_request_name)
 	approver_id = fields.Many2one('res.users',string='Approver')
@@ -87,7 +117,7 @@ class purchase_request_line(models.Model):
 	brand_id = fields.Many2one('product.brand',string='Marca',related="product_id.product_tmpl_id.product_brand_id")
 	line_status = fields.Selection(selection=[('not_match_delivery','Entregas no coinciden'),('match_delivery','Entregas coinciden'),\
 						('match_po','Coinciden cantidades con PO'),('not_match_po','No coinciden cantidades con PO')],\
-					compute=_compute_line_status,store=True,string='Estado del requerimiento')
+					compute=_compute_line_status,string='Estado del requerimiento')
 
 class stock_move(models.Model):
 	_inherit = 'stock.move'
