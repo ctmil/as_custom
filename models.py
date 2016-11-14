@@ -65,7 +65,7 @@ class purchase_order(models.Model):
 			emails = []
 			for line in self.order_line:
 				if line.purchase_request_lines:
-					rq_lines = line.purchase_request_lines:
+					rq_lines = line.purchase_request_lines
 					for rq_line in rq_lines:
 						user = self.env['res.users'].browse(rq_line.create_uid)
 						emails.append([user.email,rq_line.request_id.name,user.name])
