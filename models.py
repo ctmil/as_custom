@@ -144,7 +144,10 @@ class purchase_request_line(models.Model):
 class stock_move(models.Model):
 	_inherit = 'stock.move'
 
+	
 	brand_id = fields.Many2one('product.brand',string='Marca',related="product_id.product_tmpl_id.product_brand_id")
+	tipo_entrega = fields.Selection(selection=[('propio','Deposito Propio'),('proveedor','Deposito Proveedor')],\
+			string='Tipo de Entrega',related='picking_id.purchase_id.tipo_entrega')
 
 class purchase_order_line(models.Model):
 	_inherit = 'purchase.order.line'
