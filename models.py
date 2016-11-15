@@ -102,7 +102,7 @@ class purchase_order(models.Model):
 			for picking_id in self.picking_ids:
 				if picking_id.min_date and picking_id.state == 'done':
 					dates.append(str(picking_id.min_date))
-			if remitos:
+			if dates:
 				self.fecha_recepcion = ','.join(dates)
 
 
