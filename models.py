@@ -95,11 +95,21 @@ class purchase_order(models.Model):
 			if remitos:
 				self.nro_remito = ','.join(remitos)
 
+	@api.one
+	def _compute_fecha_recepcion(self):
+		if self.picking_ids:
+			dates = []
+			for picking_id in self.picking_ids:
+				if picking_id.min_date:
+					dates.append(str(picking_id.min_date))
+			if remitos:
+				self.fecha_recepcion = ','.join(dates)
 
 
 	request_name = fields.Char(string='Requisicion',compute=_compute_request_name)
 	approver_id = fields.Many2one('res.users',string='Approver')
 	nro_remito = fields.Char('Nro.Remito',compute=_compute_nro_remito)
+	fecha_recepcion = fields.Char('Fecha Recepcion',compute=_compute_fecha_recepcion)
 	tipo_entrega = fields.Selection(selection=[('propio','Deposito Propio'),('proveedor','Deposito Proveedor')],\
 			string='Tipo de Entrega')
 
@@ -188,3 +198,4 @@ class stock_picking(models.Model):
 	_inherit = 'stock.picking'
 
 	nro_remito = fields.Char('Nro.Remito')
+	
