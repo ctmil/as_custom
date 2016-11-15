@@ -30,6 +30,16 @@ class product_product(models.Model):
 class purchase_order(models.Model):
 	_inherit = 'purchase.order'
 
+        @api.model
+        def create(self, vals):
+		company_id = vals.get('company_id',None)
+		if company_id:
+			company = self.env['res.company'].browse(company_id)
+			if company.purchase_notes:
+				vals['notes'] = company.purchase_notes
+                return super(purchase_order, self).create(vals)
+
+
 	@api.multi
 	def print_quotation(self):
 		self.write({'state': "sent"})
@@ -100,8 +110,8 @@ class purchase_order(models.Model):
 		if self.picking_ids:
 			dates = []
 			for picking_id in self.picking_ids:
-				if picking_id.min_date and picking_id.state == 'done':
-					dates.append(str(picking_id.min_date))
+				if picking_id.fecha_entrega and picking_id.state == 'done':
+					dates.append(str(picking_id.fecha_entrega))
 			if dates:
 				self.fecha_recepcion = ','.join(dates)
 
@@ -112,6 +122,7 @@ class purchase_order(models.Model):
 	fecha_recepcion = fields.Char('Fecha Recepcion',compute=_compute_fecha_recepcion)
 	tipo_entrega = fields.Selection(selection=[('propio','Deposito Propio'),('proveedor','Deposito Proveedor')],\
 			string='Tipo de Entrega')
+	purchase_notes = fields.Text('Notas de compra')
 
 class res_company(models.Model):
 	_inherit = 'res.company'
@@ -201,4 +212,4 @@ class stock_picking(models.Model):
 	_inherit = 'stock.picking'
 
 	nro_remito = fields.Char('Nro.Remito')
-	
+	fecha_entrega = fields.Date('Fecha de Entrega')	

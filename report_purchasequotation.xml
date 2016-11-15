@@ -157,9 +157,9 @@
 
             <p t-field="o.notes"/>
 
-	    <div t-if="o.company_id.purchase_notes">
-		<p t-field="o.company_id.purchase_notes" />
-	    </div>
+	    <!-- div t-if="o.company_id.purchase_notes">
+		<p t-field="o.y_id.purchase_notes" />
+	    </div -->
 
   	    <p>IMPORTANTE ! Sr. Proveedor, tenga presente: El número de ésta orden de compra debe aparecer en todas los documentos (factura/s, remito/s, etc.) y/o correspondencia/s relacionados con los artículos / productos / servicios incluidos en la presente.</p>
 	   

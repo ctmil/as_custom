@@ -211,6 +211,7 @@
 		</field>
 		<field name="origin" position="after">
 			<field name="nro_remito" />
+			<field name="fecha_entrega" />
 		</field>
 	    </field>
 	</record>
