@@ -11,6 +11,7 @@ from openerp.fields import Date as newdate
 #Get the logger
 _logger = logging.getLogger(__name__)
 
+"""
 class product_product(models.Model):
 	_inherit = 'product.product'
 
@@ -25,7 +26,7 @@ class product_product(models.Model):
                                 display_value = product.name
                         data.append((product.id,display_value))
                 return data
-
+"""
 
 class purchase_order(models.Model):
 	_inherit = 'purchase.order'
