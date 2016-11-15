@@ -153,6 +153,7 @@ class purchase_request_line(models.Model):
 						self.line_status = 'not_match_po'
 
 	brand_id = fields.Many2one('product.brand',string='Marca',related="product_id.product_tmpl_id.product_brand_id")
+	categ_id = fields.Many2one('product.category',string='Categoria',related="product_id.product_tmpl_id.categ_id")
 	line_status = fields.Selection(selection=[('not_match_delivery','Entregas no coinciden'),('match_delivery','Entregas coinciden'),\
 						('match_po','Coinciden cantidades con PO'),('not_match_po','No coinciden cantidades con PO')],\
 					compute=_compute_line_status,string='Estado del requerimiento')
@@ -162,6 +163,7 @@ class stock_move(models.Model):
 
 	
 	brand_id = fields.Many2one('product.brand',string='Marca',related="product_id.product_tmpl_id.product_brand_id")
+	categ_id = fields.Many2one('product.category',string='Categoria',related="product_id.product_tmpl_id.categ_id")
 	tipo_entrega = fields.Selection(selection=[('propio','Deposito Propio'),('proveedor','Deposito Proveedor')],\
 			string='Tipo de Entrega',related='picking_id.purchase_id.tipo_entrega')
 
@@ -169,11 +171,13 @@ class purchase_order_line(models.Model):
 	_inherit = 'purchase.order.line'
 
 	brand_id = fields.Many2one('product.brand',string='Marca',related="product_id.product_tmpl_id.product_brand_id")
+	categ_id = fields.Many2one('product.category',string='Categoria',related="product_id.product_tmpl_id.categ_id")
 	
 class stock_pack_operation(models.Model):
 	_inherit = 'stock.pack.operation'
 
 	brand_id = fields.Many2one('product.brand',string='Marca',related="product_id.product_tmpl_id.product_brand_id")
+	categ_id = fields.Many2one('product.category',string='Categoria',related="product_id.product_tmpl_id.categ_id")
 
 	@api.one
 	def complete_qty_done(self):
@@ -184,6 +188,7 @@ class stock_quant(models.Model):
 	_inherit = 'stock.quant'
 
 	brand_id = fields.Many2one('product.brand',string='Marca',related="product_id.product_tmpl_id.product_brand_id")
+	categ_id = fields.Many2one('product.category',string='Categoria',related="product_id.product_tmpl_id.categ_id")
 
 class purchase_request(models.Model):
 	_inherit = 'purchase.request'

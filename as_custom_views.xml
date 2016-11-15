@@ -24,6 +24,7 @@
             <field name="arch" type="xml">
 		<field name="product_qty" position="before">
 			<field name="brand_id" />
+			<field name="categ_id" />
 			<field name="line_status" />
 		</field>
             </field>
@@ -36,6 +37,7 @@
             <field name="arch" type="xml">
 		<field name="product_qty" position="before">
 			<field name="brand_id" />
+			<field name="categ_id" />
 			<field name="line_status" />
 		</field>
             </field>
@@ -48,6 +50,7 @@
             <field name="arch" type="xml">
 		<field name="product_id" position="after">
 			<field name="brand_id" />
+			<field name="categ_id" />
 			<field name="line_status" />
 		</field>
             </field>
@@ -61,6 +64,7 @@
             <field name="arch" type="xml">
 		<field name="product_id" position="after">
 			<field name="brand_id" />
+			<field name="categ_id" />
 		</field>
 		<field name="origin" position="after">
 			<field name="location_dest_id" />
@@ -78,6 +82,7 @@
             <field name="arch" type="xml">
 		<field name="product_id" position="after">
 			<field name="brand_id" />
+			<field name="categ_id" />
 		</field>
 		<field name="partner_ref" position="after">
 			<field name="nro_remito" />
@@ -159,6 +164,7 @@
             <field name="arch" type="xml">
 		<field name="product_id" position="after">
 			<field name="brand_id" />
+			<field name="categ_id" />
 		</field>
 	    </field>
 	</record>
@@ -170,6 +176,7 @@
             <field name="arch" type="xml">
 		<field name="product_id" position="after">
 			<field name="brand_id" />
+			<field name="categ_id" />
 		</field>
             </field>
         </record>
@@ -209,6 +216,7 @@
 		</button>
 		<field name="product_id" position="after">
 			<field name="brand_id" />
+			<field name="categ_id" />
 		</field>
 		<field name="origin" position="after">
 			<field name="nro_remito" />
