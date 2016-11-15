@@ -64,7 +64,7 @@
 		</field>
 		<field name="origin" position="after">
 			<field name="location_dest_id" />
-			<field name="picking_partner_id" />
+			<field name="picking_partner_id" string="Proveedor"/>
 		</field>
             </field>
         </record>
