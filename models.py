@@ -100,6 +100,8 @@ class purchase_order(models.Model):
 	request_name = fields.Char(string='Requisicion',compute=_compute_request_name)
 	approver_id = fields.Many2one('res.users',string='Approver')
 	nro_remito = fields.Char('Nro.Remito',compute=_compute_nro_remito)
+	tipo_entrega = fields.Selection(selection=[('propio','Deposito Propio'),('proveedor','Deposito Proveedor')],\
+			string='Tipo de Entrega')
 
 class res_company(models.Model):
 	_inherit = 'res.company'

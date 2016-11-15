@@ -80,6 +80,7 @@
 		</field>
 		<field name="partner_ref" position="after">
 			<field name="nro_remito" />
+			<field name="tipo_entrega" />
 		</field>
             </field>
         </record>
