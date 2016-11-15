@@ -37,6 +37,10 @@ class purchase_order(models.Model):
 			company = self.env['res.company'].browse(company_id)
 			if company.purchase_notes:
 				vals['notes'] = company.purchase_notes
+			if company.user_deliver_to:
+				vals['user_deliver_to'] = company.user_deliver_to.id
+			else:
+				vals['user_deliver_to'] = self.env.context['uid']
                 return super(purchase_order, self).create(vals)
 
 
@@ -123,6 +127,7 @@ class purchase_order(models.Model):
 	tipo_entrega = fields.Selection(selection=[('propio','Deposito Propio'),('proveedor','Deposito Proveedor')],\
 			string='Tipo de Entrega')
 	purchase_notes = fields.Text('Notas de compra')
+	user_deliver_to = fields.Many2one('res.users',string='Entregar a')
 
 class res_company(models.Model):
 	_inherit = 'res.company'

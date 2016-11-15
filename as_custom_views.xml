@@ -10,7 +10,7 @@
 		<xpath expr="//group[@name='account_grp']" position="after">
                     <group string="Notas Ordenes de Compra">
 			<field name="user_deliver_to" />
-                        <field name="purchase_notes" nolabel="1" placeholder="Default terms &amp; conditions..."/>
+                        <field name="purchase_notes" placeholder="Default terms &amp; conditions..."/>
                     </group>
                 </xpath>
             </field>
@@ -83,6 +83,7 @@
 			<field name="nro_remito" />
 			<field name="tipo_entrega" />
 			<field name="fecha_recepcion" />
+			<field name="user_deliver_to" />
 		</field>
             </field>
         </record>
