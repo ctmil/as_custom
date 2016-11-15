@@ -225,6 +225,60 @@
 	    </field>
 	</record>
 
+        <record id="view_move_tree_receipt_picking_custom" model="ir.ui.view">
+            <field name="name">stock.move.tree3</field>
+            <field name="model">stock.move</field>
+            <field name="priority" eval="6"/>
+            <field name="arch" type="xml">
+                <tree decoration-muted="state == 'cancel'" default_order='date_expected, picking_id, sequence' string="Moves">
+                    <field name="date_expected" widget='date'/>
+                    <field name="date" widget="date"/>
+                    <field name="picking_id" string="Reference" invisible="1"/>
+                    <field name="sequence" invisible="1"/>
+                    <field name="origin"/>
+                    <field name="product_id"/>
+                    <field name="product_uom_qty"/>
+		    <!-- field name="product_uom" />
+                    <field name="brand_id" />
+                    <field name="categ_id" /-->
+                    <!-- field name="picking_partner_id" string="Proveedor"/->
+                    <field name="tipo_entrega" string="Tipo Entrega"/ -->
+                    <!-- field name="product_uom" options="{'no_open': True, 'no_create': True}" string="Unit of Measure" groups="product.group_uom"/>
+                    <field name="location_id" invisible="1"/>
+                    <field name="location_dest_id" invisible="1"/>
+                    <field name="create_date" invisible="1"/ -->
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="action_receipt_picking_move_custom" model="ir.actions.act_window">
+            <field name="name">Incoming  Products 2.0</field>
+            <field name="res_model">stock.move</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain" eval="[('picking_id.picking_type_id.code','=','incoming'), ('location_id.usage','!=','internal'), ('location_dest_id.usage', '=', 'internal')]"/>
+            <field name="view_id" ref="view_move_tree_receipt_picking_custom"/>
+            <field name="context">{'product_receive': True, 'search_default_future': True}</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to register a product receipt.
+              </p><p>
+                Here you can receive individual products, no matter what
+                purchase order or picking order they come from. You will find
+                the list of all products you are waiting for. Once you receive
+                an order, you can filter based on the name of the vendor or
+                the purchase order reference. Then you can confirm all products
+                received using the buttons on the right of each line.
+              </p>
+            </field>
+        </record>
+    <!--Inventory control-->
+    <menuitem action="action_receipt_picking_move_custom" id="menu_action_picking_tree_in_move_custom"
+            parent="purchase.menu_purchase_control" sequence="12"/>
+
 	
 
   </data>
