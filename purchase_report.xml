@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- report 
+            string="Purchase Order" 
+            id="action_report_purchase_order" 
+            model="purchase.order" 
+            report_type="qweb-pdf"
+            name="purchase.report_purchaseorder" 
+            file="purchase.report_purchaseorder" 
+        / -->
+
+        <report 
+            string="Presupuestos" 
+            id="as_report_purchase_quotation" 
+            model="purchase.order" 
+            report_type="qweb-pdf"
+            name="as_custom.report_purchasequotation" 
+            file="as_custom.report_purchasequotation"
+        />
+    </data>
+</openerp>
+
