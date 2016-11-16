@@ -242,7 +242,7 @@
 		    <field name="product_uom" />
                     <field name="brand_id" />
                     <field name="categ_id" />
-                    <field name="picking_partner_id" string="Proveedor"/->
+                    <field name="picking_partner_id" string="Proveedor"/>
                     <field name="tipo_entrega" string="Tipo Entrega"/>
                     <field name="product_uom" options="{'no_open': True, 'no_create': True}" string="Unit of Measure" groups="product.group_uom"/>
                     <field name="location_id" invisible="1"/>
