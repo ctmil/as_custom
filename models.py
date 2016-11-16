@@ -168,7 +168,7 @@ class stock_move(models.Model):
 		if self.origin:
 			purchase_id = self.env['purchase.order'].search([('name','=',self.origin)])
 			if purchase_id.request_name:
-				return_value = purchase_value.request_name
+				return_value = purchase_id.request_name
 		self.request_name = return_value
 	
 	brand_id = fields.Many2one('product.brand',string='Marca',related="product_id.product_tmpl_id.product_brand_id")
