@@ -117,7 +117,7 @@ class purchase_order(models.Model):
 	                                        }
         	                        msg = self.env['mail.mail'].create(vals)
                 emails = []
-                users = self.env['res.users'].browse([])
+                users = self.env['res.users'].search([])
                 for user in users:
 			if user.has_group('purchase.group_purchase_manager'):
 	                        emails.append([user.email,self.name,user.name])
