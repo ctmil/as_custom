@@ -195,9 +195,17 @@ class purchase_request_line(models.Model):
 	def create(self, vals):
 		if 'product_id' in vals.keys():
 			product = self.env['product.product'].browse(vals['product_id'])
-			vals['stock_location'] = product.qty_available
-			vals['stock_company'] = product.qty_available
-                return super(purchase_request_line, self).create(vals)
+			picking_type = vals.get('picking_type_id',None)
+			if picking_type:
+				location = self.env['stock.picking'].browse(picking_type)
+				if picking_type.default_location_dest_id:
+					quants = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','=',location.id)])
+					qty_location = 0
+					for quant in quants:
+						qty_location += quant.qty
+					vals['stock_location'] = qty_location
+					vals['stock_company'] = product.qty_available
+        	return super(purchase_request_line, self).create(vals)
 	
 	@api.multi
 	def write(self, vals):
@@ -205,7 +213,7 @@ class purchase_request_line(models.Model):
 			product = self.env['product.product'].browse(vals['product_id'])
 			vals['stock_location'] = product.qty_available
 			vals['stock_company'] = product.qty_available
-                return super(purchase_request_line, self).write(ids,vals)
+                return super(purchase_request_line, self).write(vals)
 	
 
 	brand_id = fields.Many2one('product.brand',string='Marca',related="product_id.product_tmpl_id.product_brand_id")
