@@ -69,7 +69,27 @@ class purchase_order(models.Model):
 			'approver_id': self.env.context['uid']
 			}
 		self.write(vals)
-		return super(purchase_order, self).button_approve()
+		res = super(purchase_order, self).button_approve()
+                emails = []
+                users = self.env['res.users'].search([])
+                for user in users:
+                        if user.has_group('purchase.group_purchase_managgerer'):
+                                emails.append([user.email,self.name,user.name])
+                if emails:
+                        for email in emails:
+                                subject = 'La orden de compra ' + email[1] + ' fue aprobada'
+                                body = 'Estimado/a ' + email[2] + '\n'
+                                body += 'La orden de compra ' + email[1] + 'fue aprobado'
+                                body_html = '<p>La orden de compra ' + email[1] + ' fue aprobada''</p>'
+                                email_to = email[0]
+                                vals = {
+                                        'body': body,
+                                        'body_html': body_html,
+                                        'subject': subject,
+                                        'email_to': email_to
+                                        }
+                                msg = self.env['mail.mail'].create(vals)
+		return res
 
 	@api.multi
 	def button_confirm(self):
