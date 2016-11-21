@@ -186,8 +186,8 @@ class purchase_request_line(models.Model):
 					for quant in quants:
 						qty_location += quant.qty
 					vals['stock_location'] = qty_location
-			quants = self.env['stock.quant'].search([('product_id','=',product.id),\
-					('company_id','=',request.company_id.id),('usage','=','internal')])
+			locations = self.env['stock.location'].search([('company_id','=',request.company_id.id),('usage','=','internal')]).ids
+			quants = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','in',locations)])
 			qty_company = 0
 			for quant in quants:
 				qty_company += quant.qty
