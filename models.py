@@ -32,7 +32,7 @@ class product_product(models.Model):
 class purchase_order_line(models.Model):
 	_inherit = 'purchase.order.line'
 
-	"""
+
 	@api.model
 	def create(self, vals):
 		if 'product_id' in vals.keys():
@@ -76,7 +76,7 @@ class purchase_order_line(models.Model):
 				qty_company += quant.qty
 			vals['stock_company'] = qty_company
                 return super(purchase_order_line, self).write(vals)
-	"""	
+	
 
 	stock_location = fields.Integer('Stock Deposito')
 	stock_company = fields.Integer('Stock Empresa')
