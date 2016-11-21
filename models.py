@@ -197,7 +197,7 @@ class purchase_request_line(models.Model):
 	def write(self, vals):
 		if 'product_id' in vals.keys():
 			product = self.env['product.product'].browse(vals['product_id'])
-			request =  self.env['purchase.request'].browse(vals['request_id'])
+			request =  self.request_id
 			picking_type = request.picking_type_id
 			if picking_type:
 				if picking_type.default_location_dest_id:
