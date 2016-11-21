@@ -76,6 +76,8 @@ class purchase_order_line(models.Model):
 			vals['stock_company'] = qty_company
                 return super(purchase_order_line, self).write(vals)
 	
+	stock_location = fields.Integer('Stock Deposito')
+	stock_company = fields.Integer('Stock Empresa')
 
 
 class purchase_order(models.Model):
