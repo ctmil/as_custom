@@ -176,11 +176,12 @@ class purchase_request_line(models.Model):
 	def create(self, vals):
 		if 'product_id' in vals.keys():
 			product = self.env['product.product'].browse(vals['product_id'])
-			picking_type = vals.get('picking_type_id',None)
+			request =  self.env['purchase.request'].browse(vals['request_id'])
+			picking_type = request.picking_type_id
 			if picking_type:
-				location = self.env['stock.picking'].browse(picking_type)
 				if picking_type.default_location_dest_id:
-					quants = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','=',location.id)])
+					quants = self.env['stock.quant'].search([('product_id','=',product.id),\
+						('location_id','=',picking_type.default_location_dest_id.id)])
 					qty_location = 0
 					for quant in quants:
 						qty_location += quant.qty
