@@ -20,7 +20,7 @@
 {
     "name": "AS Customizations",
     "category": "Generic Modules/Projects & Services",
-    "depends": ["base","project","analytic","account","purchase","product_brand","purchase_discount","purchase_request_to_rfq","base_vat","purchase_request","product_brand","mail"],
+    "depends": ["base","project","analytic","account","purchase","product_brand","purchase_discount","purchase_request_to_rfq","base_vat","purchase_request","product_brand","mail","web_notify"],
     "init_xml": [],
     "data": [
 	'purchase_report.xml',

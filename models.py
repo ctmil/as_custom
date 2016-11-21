@@ -77,13 +77,16 @@ class purchase_order(models.Model):
 		emails = []
 		if self.order_line:
 			emails = []
+			users = []
 			for line in self.order_line:
 				if line.purchase_request_lines:
 					rq_lines = line.purchase_request_lines
 					for rq_line in rq_lines:
 						user = self.env['res.users'].browse(rq_line.create_uid.id)
 						emails.append([user.email,rq_line.request_id.name,user.name])
+						users.append(user)
 			if emails:
+				index = 0
 				for email in emails:
 	                                subject = 'Requerimiento ' + email[1] + ' fue aprobado'
 	                                body = 'Estimado/a ' + email[2] + '\n'
@@ -97,17 +100,20 @@ class purchase_order(models.Model):
                                         	'email_to': email_to
 	                                        }
         	                        msg = self.env['mail.mail'].create(vals)
+					users[index].notify_info(message=body,title=subject)
                 emails = []
                 users = self.env['res.users'].search([])
                 for user in users:
 			if user.has_group('purchase.group_purchase_manager'):
 	                        emails.append([user.email,self.name,user.name])
+				user.notify_info(message='La orden '+self.name+' fue confirmada',title='Orden '+self.name+' confirmada')
+			
                 if emails:
                         for email in emails:
-                                subject = 'La orden de compra ' + email[1] + ' fue aprobada'
+                                subject = 'La orden de compra ' + email[1] + ' fue confirmada'
                                 body = 'Estimado/a ' + email[2] + '\n'
-                                body += 'La orden de compra ' + email[1] + 'fue aprobado'
-                                body_html = '<p>La orden de compra ' + email[1] + ' fue aprobada''</p>'
+                                body += 'La orden de compra ' + email[1] + 'fue confirmada'
+                                body_html = '<p>La orden de compra ' + email[1] + ' fue confirmada''</p>'
                                 email_to = email[0]
                                 vals = {
                                         'body': body,
