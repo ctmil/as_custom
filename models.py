@@ -191,7 +191,7 @@ class purchase_request_line(models.Model):
 			qty_company = 0
 			for quant in quants:
 				qty_company += quant.qty
-			vals['stock_company'] = product.qty_company
+			vals['stock_company'] = qty_company
         	return super(purchase_request_line, self).create(vals)
 	
 	@api.multi
