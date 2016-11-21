@@ -194,9 +194,9 @@ class purchase_request_line(models.Model):
 	@api.one
 	@api.onchange('product_id')
 	def show_qty(self):
-		if self.qty_available:
-			self.stock_location = self.qty_available
-			self.stock_company = self.qty_available
+		if self.product_id and self.product_id.qty_available:
+			self.stock_location = self.product_id.qty_available
+			self.stock_company = self.product_id.qty_available
 
 	brand_id = fields.Many2one('product.brand',string='Marca',related="product_id.product_tmpl_id.product_brand_id")
 	categ_id = fields.Many2one('product.category',string='Categoria',related="product_id.product_tmpl_id.categ_id")
