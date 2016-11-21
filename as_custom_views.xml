@@ -44,7 +44,7 @@
 			<field name="categ_id" />
 			<field name="line_status" />
 		</field>
-		<field name="qty" position="after">
+		<field name="product_qty" position="after">
 			<field name="stock_location" />
 			<field name="stock_company" />
 		</field>
