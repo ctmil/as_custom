@@ -191,11 +191,19 @@ class purchase_request_line(models.Model):
 					else:
 						self.line_status = 'not_match_po'
 
+	@api.onchange('fieldx')
+	def show_qty(self):
+		if self.qty_available:
+			self.stock_location = self.qty_available
+			self.stock_company = self.qty_available
+
 	brand_id = fields.Many2one('product.brand',string='Marca',related="product_id.product_tmpl_id.product_brand_id")
 	categ_id = fields.Many2one('product.category',string='Categoria',related="product_id.product_tmpl_id.categ_id")
 	line_status = fields.Selection(selection=[('not_match_delivery','Entregas no coinciden'),('match_delivery','Entregas coinciden'),\
 						('match_po','Coinciden cantidades con PO'),('not_match_po','No coinciden cantidades con PO')],\
 					compute=_compute_line_status,string='Estado del requerimiento')
+	stock_location = fields.Integer('Stock Deposito')
+	stock_company = fields.Integer('Stock Empresa')
 
 class stock_move(models.Model):
 	_inherit = 'stock.move'
