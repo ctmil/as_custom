@@ -46,7 +46,7 @@ class purchase_order_line(models.Model):
 					for quant in quants:
 						qty_location += quant.qty
 					vals['stock_location'] = qty_location
-			locations = self.env['stock.location'].search([('company_id','=',request.company_id.id),('usage','=','internal')]).ids
+			locations = self.env['stock.location'].search([('company_id','=',order.company_id.id),('usage','=','internal')]).ids
 			quants = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','in',locations)])
 			qty_company = 0
 			for quant in quants:
