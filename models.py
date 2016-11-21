@@ -199,8 +199,8 @@ class purchase_request_line(models.Model):
 			vals['stock_company'] = product.qty_available
                 return super(purchase_request_line, self).create(vals)
 	
-	@api.model
-	def write(self, ids, vals):
+	@api.multi
+	def write(self, vals):
 		if 'product_id' in vals.keys():
 			product = self.env['product.product'].browse(vals['product_id'])
 			vals['stock_location'] = product.qty_available
