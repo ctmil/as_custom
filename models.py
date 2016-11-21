@@ -28,6 +28,56 @@ class product_product(models.Model):
                 return data
 """
 
+
+class purchase_order_line(models.Model):
+	_inherit = 'purchase.order.line'
+
+	@api.model
+	def create(self, vals):
+		if 'product_id' in vals.keys():
+			product = self.env['product.product'].browse(vals['product_id'])
+			order =  self.env['purchase.order'].browse(vals['order_id'])
+			picking_type = order.picking_type_id
+			if picking_type:
+				if picking_type.default_location_dest_id:
+					quants = self.env['stock.quant'].search([('product_id','=',product.id),\
+						('location_id','=',picking_type.default_location_dest_id.id)])
+					qty_location = 0
+					for quant in quants:
+						qty_location += quant.qty
+					vals['stock_location'] = qty_location
+			locations = self.env['stock.location'].search([('company_id','=',request.company_id.id),('usage','=','internal')]).ids
+			quants = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','in',locations)])
+			qty_company = 0
+			for quant in quants:
+				qty_company += quant.qty
+			vals['stock_company'] = qty_company
+        	return super(purchase_order_line, self).create(vals)
+	
+	@api.multi
+	def write(self, vals):
+		if 'product_id' in vals.keys():
+			product = self.env['product.product'].browse(vals['product_id'])
+			order =  self.order_id
+			picking_type = order.picking_type_id
+			if picking_type:
+				if picking_type.default_location_dest_id:
+					quants = self.env['stock.quant'].search([('product_id','=',product.id),\
+						('location_id','=',picking_type.default_location_dest_id.id)])
+					qty_location = 0
+					for quant in quants:
+						qty_location += quant.qty
+					vals['stock_location'] = qty_location
+			locations = self.env['stock.location'].search([('company_id','=',request.company_id.id),('usage','=','internal')]).ids
+			quants = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','in',locations)])
+			qty_company = 0
+			for quant in quants:
+				qty_company += quant.qty
+			vals['stock_company'] = qty_company
+                return super(purchase_order_line, self).write(vals)
+	
+
+
 class purchase_order(models.Model):
 	_inherit = 'purchase.order'
 

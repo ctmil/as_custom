@@ -98,6 +98,10 @@
 			<field name="fecha_recepcion" />
 			<field name="user_deliver_to" />
 		</field>
+		<field name="product_qty" position="after">
+			<field name="stock_location" />
+			<field name="stock_company" />
+		</field>
             </field>
         </record>
 
