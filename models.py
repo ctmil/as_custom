@@ -71,10 +71,9 @@ class purchase_order(models.Model):
 		self.write(vals)
 		res = super(purchase_order, self).button_approve()
                 emails = []
-                users = self.env['res.users'].search([])
+                users = self.env['res.users'].browse([self.create_uid])
                 for user in users:
-                        if user.has_group('purchase.group_purchase_managgerer'):
-                                emails.append([user.email,self.name,user.name])
+                        emails.append([user.email,self.name,user.name])
                 if emails:
                         for email in emails:
                                 subject = 'La orden de compra ' + email[1] + ' fue aprobada'
@@ -117,6 +116,25 @@ class purchase_order(models.Model):
                                         	'email_to': email_to
 	                                        }
         	                        msg = self.env['mail.mail'].create(vals)
+                emails = []
+                users = self.env['res.users'].browse([])
+                for user in users:
+			if user.has_group('purchase.group_purchase_manager'):
+	                        emails.append([user.email,self.name,user.name])
+                if emails:
+                        for email in emails:
+                                subject = 'La orden de compra ' + email[1] + ' fue aprobada'
+                                body = 'Estimado/a ' + email[2] + '\n'
+                                body += 'La orden de compra ' + email[1] + 'fue aprobado'
+                                body_html = '<p>La orden de compra ' + email[1] + ' fue aprobada''</p>'
+                                email_to = email[0]
+                                vals = {
+                                        'body': body,
+                                        'body_html': body_html,
+                                        'subject': subject,
+                                        'email_to': email_to
+                                        }
+                                msg = self.env['mail.mail'].create(vals)
 
 		return res
 
