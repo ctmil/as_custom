@@ -190,13 +190,24 @@ class purchase_request_line(models.Model):
 						self.line_status = 'match_po'
 					else:
 						self.line_status = 'not_match_po'
-
-	@api.one
-	@api.onchange('product_id')
-	def show_qty(self):
-		if self.product_id and self.product_id.qty_available:
-			self.stock_location = self.product_id.qty_available
-			self.stock_company = self.product_id.qty_available
+	
+	@api.model
+	def create(self, vals):
+		if 'product_id' in vals.keys():
+			product = self.env['product.product'].browse(vals['product_id'])
+			vals['stock_location'] = product.qty_available
+			vals['stock_company'] = product.qty_available
+                return super(purchase_request_line, self).create(vals)
+	
+	@api.multi
+	def write(self, ids, vals):
+		import pdb;pdb.set_trace()
+		if 'product_id' in vals:
+			product = self.env['product.product'].browse(vals['product_id'])
+			vals['stock_location'] = product.qty_available
+			vals['stock_company'] = product.qty_available
+                return super(purchase_request_line, self).write(ids,vals)
+	
 
 	brand_id = fields.Many2one('product.brand',string='Marca',related="product_id.product_tmpl_id.product_brand_id")
 	categ_id = fields.Many2one('product.category',string='Categoria',related="product_id.product_tmpl_id.categ_id")
