@@ -191,7 +191,8 @@ class purchase_request_line(models.Model):
 					else:
 						self.line_status = 'not_match_po'
 
-	@api.onchange('fieldx')
+	@api.one
+	@api.onchange('product_id')
 	def show_qty(self):
 		if self.qty_available:
 			self.stock_location = self.qty_available
