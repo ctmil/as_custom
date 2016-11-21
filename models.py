@@ -74,7 +74,6 @@ class purchase_order(models.Model):
 
 	@api.multi
 	def button_confirm(self):
-		res = super(purchase_order, self).button_confirm()
 		emails = []
 		if self.order_line:
 			emails = []
@@ -198,8 +197,22 @@ class purchase_request_line(models.Model):
 	def write(self, vals):
 		if 'product_id' in vals.keys():
 			product = self.env['product.product'].browse(vals['product_id'])
-			vals['stock_location'] = product.qty_available
-			vals['stock_company'] = product.qty_available
+			request =  self.env['purchase.request'].browse(vals['request_id'])
+			picking_type = request.picking_type_id
+			if picking_type:
+				if picking_type.default_location_dest_id:
+					quants = self.env['stock.quant'].search([('product_id','=',product.id),\
+						('location_id','=',picking_type.default_location_dest_id.id)])
+					qty_location = 0
+					for quant in quants:
+						qty_location += quant.qty
+					vals['stock_location'] = qty_location
+			locations = self.env['stock.location'].search([('company_id','=',request.company_id.id),('usage','=','internal')]).ids
+			quants = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','in',locations)])
+			qty_company = 0
+			for quant in quants:
+				qty_company += quant.qty
+			vals['stock_company'] = qty_company
                 return super(purchase_request_line, self).write(vals)
 	
 
