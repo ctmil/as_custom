@@ -69,26 +69,8 @@ class purchase_order(models.Model):
 			'approver_id': self.env.context['uid']
 			}
 		self.write(vals)
-		res = super(purchase_order, self).button_approve()
-                emails = []
-                users = self.env['res.users'].browse([self.create_uid])
-                for user in users:
-                        emails.append([user.email,self.name,user.name])
-                if emails:
-                        for email in emails:
-                                subject = 'La orden de compra ' + email[1] + ' fue aprobada'
-                                body = 'Estimado/a ' + email[2] + '\n'
-                                body += 'La orden de compra ' + email[1] + 'fue aprobado'
-                                body_html = '<p>La orden de compra ' + email[1] + ' fue aprobada''</p>'
-                                email_to = email[0]
-                                vals = {
-                                        'body': body,
-                                        'body_html': body_html,
-                                        'subject': subject,
-                                        'email_to': email_to
-                                        }
-                                msg = self.env['mail.mail'].create(vals)
-		return res
+		return super(purchase_order, self).button_approve()
+		 
 
 	@api.multi
 	def button_confirm(self):
@@ -135,8 +117,7 @@ class purchase_order(models.Model):
                                         'email_to': email_to
                                         }
                                 msg = self.env['mail.mail'].create(vals)
-
-		return res
+		return super(purchase_order, self).button_confirm()
 
 	@api.one
 	def _compute_nro_remito(self):
