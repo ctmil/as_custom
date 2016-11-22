@@ -35,7 +35,7 @@ class purchase_order_line(models.Model):
 	
 	@api.onchange('product_id')
 	def onchange_product_id(self):
-		res = super(purchase_order_line, self).on_change_product_id()
+		res = super(purchase_order_line, self).onchange_product_id()
 		import pdb;pdb.set_trace()
 		if 'product_id' in vals.keys():
 			product = self.env['product.product'].browse(vals['product_id'])
