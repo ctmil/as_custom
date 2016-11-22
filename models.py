@@ -229,8 +229,8 @@ class purchase_request_line(models.Model):
 			if line.order_id:
 				if line.order_id.name not in names:
 					names.append(line.order_id.name)
-				return_value = ','.names
-		self.po_status = return_value
+				return_value = ','.join(names)
+		self.po_name = return_value
 
 	@api.one
 	def _compute_po_status(self):
