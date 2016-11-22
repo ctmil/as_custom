@@ -2,6 +2,17 @@
 <openerp>
   <data>
 
+        <record model="ir.ui.view" id="view_purchase_requisition_form_as_custom">
+            <field name="name">purchase.requisition.form.custom</field>
+            <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_form"/>
+            <field name="model">res.company</field>
+            <field name="arch" type="xml">
+		<xpath expr="//field[@name='purchase_ids']/tree/field[@name='state']" position="after">
+			<field name="amount_total"/>
+	 	  </xpath>
+            </field>
+        </record>
+
         <record model="ir.ui.view" id="view_company_inherit_form3">
             <field name="name">res.company.form.inherit.3</field>
             <field name="inherit_id" ref="base.view_company_form"/>
