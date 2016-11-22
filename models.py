@@ -224,7 +224,7 @@ class purchase_request_line(models.Model):
 	@api.one
 	def _compute_po_name(self):
 		return_value = ''
-		names = ''
+		names = []
 		for line in self.purchase_lines:
 			if line.order_id:
 				if line.order_id.name not in names:
