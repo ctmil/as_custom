@@ -222,7 +222,7 @@ class purchase_request_line(models.Model):
 	_inherit = 'purchase.request.line'
 
 	@api.one
-	def _compute_po_status(self):
+	def _compute_po_name(self):
 		return_value = ''
 		names = ''
 		for line in self.purchase_lines:
