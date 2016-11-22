@@ -32,9 +32,11 @@ class product_product(models.Model):
 class purchase_order_line(models.Model):
 	_inherit = 'purchase.order.line'
 
-	"""
-	@api.model
-	def create(self, vals):
+	
+	@api.onchange('product_id')
+	def onchange_product_id(self):
+		res = super(purchase_order_line, self).on_change_product_id()
+		import pdb;pdb.set_trace()
 		if 'product_id' in vals.keys():
 			product = self.env['product.product'].browse(vals['product_id'])
 			order =  self.env['purchase.order'].browse(vals['order_id'])
@@ -55,7 +57,8 @@ class purchase_order_line(models.Model):
 				qty_company += quant.qty
 			vals['stock_company'] = qty_company
 	        	return super(purchase_order_line, self).create(vals)
-	
+
+	"""	
 	@api.multi
 	def write(self, vals):
 		if 'product_id' in vals.keys():
