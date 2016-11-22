@@ -32,7 +32,8 @@ class product_product(models.Model):
 class purchase_order_line(models.Model):
 	_inherit = 'purchase.order.line'
 
-	
+
+	"""	
 	@api.onchange('product_id')
 	def onchange_product_id(self):
 		res = super(purchase_order_line, self).onchange_product_id()
@@ -58,7 +59,6 @@ class purchase_order_line(models.Model):
 			vals['stock_company'] = qty_company
 	        	return super(purchase_order_line, self).create(vals)
 
-	"""	
 	@api.multi
 	def write(self, vals):
 		if 'product_id' in vals.keys():
