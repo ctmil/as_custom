@@ -67,7 +67,6 @@
 			<field name="categ_id" />
 			<field name="line_status" />
 			<field name="po_status" />
-			<field name="po_name" />
 		</field>
 		<field name="product_qty" position="after">
 			<field name="stock_location" />

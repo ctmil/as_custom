@@ -221,24 +221,15 @@ class res_company(models.Model):
 class purchase_request_line(models.Model):
 	_inherit = 'purchase.request.line'
 
-	@api.one
-	def _compute_po_name(self):
-		return_value = ''
-		names = []
-		for line in self.purchase_lines:
-			if line.order_id:
-				if line.order_id.name not in names:
-					names.append(line.order_id.name)
-				return_value = ','.join(names)
-		self.po_name = return_value
 
 	@api.one
 	def _compute_po_status(self):
-		return_value = ''
+		names = []
 		for line in self.purchase_lines:
 			if line.order_id:
-				return_value = line.order_id.state
-		self.po_status = return_value
+				names.append(line.order_id.name + '(' + line.order_id.state or '' + ')')
+		if names:
+			self.po_status = ','.join(names)
 
 	@api.one
 	def _compute_line_status(self):
@@ -307,7 +298,6 @@ class purchase_request_line(models.Model):
 	stock_location = fields.Integer('Stock Deposito')
 	stock_company = fields.Integer('Stock Empresa')
 	po_status = fields.Char('Estado PO',compute=_compute_po_status)
-	po_name = fields.Char('Nombre PO',compute=_compute_po_name)
 
 class stock_move(models.Model):
 	_inherit = 'stock.move'
