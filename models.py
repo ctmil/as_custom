@@ -222,6 +222,14 @@ class purchase_request_line(models.Model):
 	_inherit = 'purchase.request.line'
 
 	@api.one
+	def _compute_po_status(self):
+		return_value = ''
+		for line in self.purchase_lines:
+			if line.order_id:
+				return_value = line.order_id.state
+		self.po_status = return_value
+
+	@api.one
 	def _compute_line_status(self):
 		for line in self.purchase_lines:
 			if (line.qty_received > 0) and line.qty_received != self.product_qty:
@@ -287,6 +295,7 @@ class purchase_request_line(models.Model):
 					compute=_compute_line_status,string='Estado del requerimiento')
 	stock_location = fields.Integer('Stock Deposito')
 	stock_company = fields.Integer('Stock Empresa')
+	po_status = fields.Char('Estado PO',compute=_compute_po_status)
 
 class stock_move(models.Model):
 	_inherit = 'stock.move'
