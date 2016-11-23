@@ -34,23 +34,24 @@ class purchase_order_line(models.Model):
 
 	@api.one
 	def _compute_stock(self):
-		product = self.product_id
-		order =  self.order_id
-		picking_type = order.picking_type_id
-		if picking_type:
-			if picking_type.default_location_dest_id:
-				quants = self.env['stock.quant'].search([('product_id','=',product.id),\
-					('location_id','=',picking_type.default_location_dest_id.id)])
-				qty_location = 0
-				for quant in quants:
-					qty_location += quant.qty
-				self.stock_location = qty_location
-		locations = self.env['stock.location'].search([('company_id','=',order.company_id.id),('usage','=','internal')]).ids
-		quants = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','in',locations)])
-		qty_company = 0
-		for quant in quants:
-			qty_company += quant.qty
-		self.stock_company = qty_company
+		if self.order_id.state in ['draft','sent']:
+			product = self.product_id
+			order =  self.order_id
+			picking_type = order.picking_type_id
+			if picking_type:
+				if picking_type.default_location_dest_id:
+					quants = self.env['stock.quant'].search([('product_id','=',product.id),\
+						('location_id','=',picking_type.default_location_dest_id.id)])
+					qty_location = 0
+					for quant in quants:
+						qty_location += quant.qty
+					self.stock_location = qty_location
+			locations = self.env['stock.location'].search([('company_id','=',order.company_id.id),('usage','=','internal')]).ids
+			quants = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','in',locations)])
+			qty_company = 0
+			for quant in quants:
+				qty_company += quant.qty
+			self.stock_company = qty_company
 
 	stock_location = fields.Integer('Stock Deposito',compute=_compute_stock)
 	stock_company = fields.Integer('Stock Empresa',compute=_compute_stock)
