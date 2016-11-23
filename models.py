@@ -54,7 +54,7 @@ class purchase_order_line(models.Model):
 			self.stock_company = qty_company
 
 	stock_location = fields.Integer('Stock Deposito',compute=_compute_stock,store=True)
-	stock_company = fields.Integer('Stock Empresa',compute=_compute_stock,store=Tru,store=True)
+	stock_company = fields.Integer('Stock Empresa',compute=_compute_stock,store=True)
 
 
 class purchase_order(models.Model):
