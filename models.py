@@ -179,7 +179,7 @@ class purchase_order(models.Model):
 	approver_id = fields.Many2one('res.users',string='Approver')
 	nro_remito = fields.Char('Nro.Remito',compute=_compute_nro_remito)
 	fecha_recepcion = fields.Char('Fecha Recepcion',compute=_compute_fecha_recepcion)
-	tipo_entrega = fields.Selection(selection=[('propio','Obra'),('proveedor','Proveedor')('valle_soleado',('Valle Soleado')],\
+	tipo_entrega = fields.Selection(selection=[('propio','Obra'),('proveedor','Proveedor')('valle_soleado','Valle Soleado')],\
 			string='Tipo de Entrega')
 	purchase_notes = fields.Text('Notas de compra')
 	user_deliver_to = fields.Many2one('res.users',string='Entregar a')
