@@ -103,6 +103,9 @@
 			<field name="picking_partner_id" string="Proveedor"/>
 			<field name="tipo_entrega" string="Tipo Entrega"/>
 		</field>
+		<button name="%(stock.move_scrap)d" position="attributes">
+			<attribute name="invisible">1</attribute>
+		</button>
             </field>
         </record>
 
