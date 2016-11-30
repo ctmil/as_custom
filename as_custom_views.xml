@@ -2,6 +2,7 @@
 <openerp>
   <data>
 
+	<!-- just a declaration -->
         <record model="ir.ui.view" id="view_purchase_requisition_form_as_custom">
             <field name="name">purchase.requisition.form.custom</field>
             <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_form"/>
