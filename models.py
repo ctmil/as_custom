@@ -346,5 +346,10 @@ class purchase_request(models.Model):
 class stock_picking(models.Model):
 	_inherit = 'stock.picking'
 
+	@api.one
+	def _compute_product_uom_qty_int(self):
+		self.product_uom_qty_int = int(self.product_uom_qty)
+
 	nro_remito = fields.Char('Nro.Remito')
 	fecha_entrega = fields.Date('Fecha de Entrega')	
+	product_uom_qty_int = fields.Integer('Cantidad',compute=_compute_product_uom_qty_int)
