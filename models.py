@@ -113,8 +113,9 @@ class purchase_order(models.Model):
 					rq_lines = line.purchase_request_lines
 					for rq_line in rq_lines:
 						user = self.env['res.users'].browse(rq_line.create_uid.id)
-						emails.append([user.email,rq_line.request_id.name,user.name])
-						users.append(user)
+						if user.notify_email != 'none':
+							emails.append([user.email,rq_line.request_id.name,user.name])
+							users.append(user)
 			if emails:
 				index = 0
 				for email in emails:
@@ -134,7 +135,7 @@ class purchase_order(models.Model):
                 emails = []
                 users = self.env['res.users'].search([])
                 for user in users:
-			if user.has_group('purchase.group_purchase_manager'):
+			if user.has_group('purchase.group_purchase_manager') and user.notify_email != 'none':
 	                        emails.append([user.email,self.name,user.name])
 				user.notify_info(message='La orden '+self.name+' fue confirmada',title='Orden '+self.name+' confirmada')
 			
@@ -322,7 +323,7 @@ class purchase_request(models.Model):
 		emails = []
 		users = self.env['res.users'].search([])
 		for user in users:
-			if user.has_group('purchase.group_purchase_user'):
+			if user.has_group('purchase.group_purchase_user') and user.notify_email != 'none':
 				emails.append([user.email,self.name,user.name])
 		if emails:
 			for email in emails:
