@@ -122,6 +122,18 @@
         </record>
 
 	<!-- purchase order -->
+
+        <record id="purchase_order_tree_as_custom" model="ir.ui.view">
+            <field name="name">purchase.order.tree.as.custom</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_tree"/>
+            <field name="arch" type="xml">
+		<field name="origin" position="after">
+			<field name="request_name" />
+		</field>
+            </field>
+        </record>
+
         <record id="purchase_order_form_as_custom" model="ir.ui.view">
             <field name="name">purchase.order.form.as.custom</field>
             <field name="model">purchase.order</field>
