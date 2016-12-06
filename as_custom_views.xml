@@ -136,6 +136,7 @@
 			<field name="tipo_entrega" />
 			<field name="fecha_recepcion" />
 			<field name="user_deliver_to" />
+			<field name="request_name" />
 		</field>
 		<field name="product_qty" position="after">
 			<field name="stock_location" />
