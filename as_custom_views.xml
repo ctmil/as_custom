@@ -130,6 +130,7 @@
             <field name="arch" type="xml">
 		<field name="origin" position="after">
 			<field name="request_name" />
+			<field name="request_id" />
 		</field>
             </field>
         </record>

@@ -95,6 +95,16 @@ class purchase_order(models.Model):
 			return_value = ','.join(request_names)
 		self.request_name = return_value
 
+	@api.one
+	def _compute_request_id(self):
+		return_value = None
+		for line in self.order_line:
+			if line.purchase_request_lines:
+				for request_line in line.purchase_request_lines:
+					if request_line.request_id:
+						return_value = request_line.request_id.id
+		self.request_id = return_value
+
 	@api.multi
 	def button_approve(self):
 		vals = {
@@ -178,6 +188,7 @@ class purchase_order(models.Model):
 				self.fecha_recepcion = ','.join(dates)
 
 
+	request_id = fields.Many2one('purchase.request',string='Requisicion',compute=_compute_request_id)
 	request_name = fields.Char(string='Requisicion',compute=_compute_request_name)
 	approver_id = fields.Many2one('res.users',string='Approver')
 	nro_remito = fields.Char('Nro.Remito',compute=_compute_nro_remito)
