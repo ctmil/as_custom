@@ -16,7 +16,7 @@ _logger = logging.getLogger(__name__)
 class purchase_order_select_request(models.TransientModel):
         _name = 'purchase.order.select.request'
 
-        request_id = fields.Many2one('purchase.request')
+        request_id = fields.Many2one('purchase.request',string='Requerimiento')
 	request_lines = fields.One2many(comodel_name='purchase.order.select.request.line',inverse_name='header_id',string='Lineas')
 
         @api.multi
