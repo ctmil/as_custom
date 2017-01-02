@@ -62,6 +62,13 @@ class purchase_order_line(models.Model):
 class purchase_order(models.Model):
 	_inherit = 'purchase.order'
 
+	@api.multi
+	def complete_request(self):
+		if len(self) > 1:
+                         raise exceptions.ValidationError('Debe seleccionar solo una PO')
+		import pdb;pdb.set_trace()
+
+
         @api.model
         def create(self, vals):
 		company_id = vals.get('company_id',None)

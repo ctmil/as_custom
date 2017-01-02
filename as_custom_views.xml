@@ -148,17 +148,18 @@
 			<field name="tipo_entrega" />
 			<field name="fecha_recepcion" />
 			<field name="user_deliver_to" />
-			<field name="request_name" />
+			<!-- field name="request_name" / -->
 			<field name="request_id" />
+			<button name="complete_request" string="Finalizar Requerimiento" type="object" />
 		</field>
 		<field name="product_qty" position="after">
 			<field name="stock_location" />
 			<field name="stock_company" />
 		</field>
-                <xpath expr="//field[@name='order_line']/form/sheet/group/group/field[@name='company_id']" position="after">
-			<!-- button name="set_request_completed" string="Marcar Completado" type="object"></button -->
-			<field name="purchase_request_lines" widget="many2many_tags" />
-		</xpath>
+                <!-- xpath expr="//field[@name='order_line']/form/sheet/notebook/page/field[@name='name']" position="after">
+			<field name="purchase_request_lines" widget="many2many_tags" readonly="0"
+				domain="[('request_id', '=', parent.request_id)]"/>
+		</xpath -->
             </field>
         </record>
 
