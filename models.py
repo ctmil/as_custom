@@ -71,7 +71,7 @@ class purchase_order(models.Model):
 			}
 		header_id = self.env['purchase.order.select.request'].create(vals_header)
 		request = self.request_id
-		for line in self.line_ids:
+		for line in request.line_ids:
 			vals_line = {
 				'header_id': header_id.id,
 				'line_id': line.id,
