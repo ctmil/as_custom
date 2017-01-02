@@ -155,8 +155,9 @@
 			<field name="stock_location" />
 			<field name="stock_company" />
 		</field>
-                <xpath expr="//field[@name='order_line']/form/sheet/group/group/field[@name='product_id']" position="after">
-			<button name="_set_request_completed" string="Marcar Completado" type="object"></button>
+                <xpath expr="//field[@name='order_line']/form/sheet/group/group/field[@name='company_id']" position="after">
+			<!-- button name="set_request_completed" string="Marcar Completado" type="object"></button -->
+			<field name="purchase_request_ids" widget="many2many_tags" />
 		</xpath>
             </field>
         </record>
