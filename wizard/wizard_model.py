@@ -21,8 +21,13 @@ class purchase_order_select_request(models.TransientModel):
 
         @api.multi
         def confirm_line(self):
-		import pdb;pdb.set_trace()
-
+		for line in self.request_lines:
+			vals = {
+				'estado_linea': line.action,
+				}
+			request_line = line.line_id
+			request_line.write(vals)
+		return None
 
 
 class purchase_order_select_request_line(models.TransientModel):
@@ -30,4 +35,5 @@ class purchase_order_select_request_line(models.TransientModel):
 
         header_id = fields.Many2one('purchase.order.select.request')
 	line_id = fields.Many2one('purchase.request.line',string='Linea')
+	qty = fields.Integer(string='Cantidad')
 	action = fields.Selection(selection=[('progress','En Progreso'),('done','Finalizada')],string='Finalizada')

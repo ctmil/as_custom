@@ -75,6 +75,7 @@ class purchase_order(models.Model):
 			vals_line = {
 				'header_id': header_id.id,
 				'line_id': line.id,
+				'qty': line.product_qty,
 				'action': 'progress'
 				}
 			rq_line_id = self.env['purchase.order.select.request.line'].create(vals_line)
@@ -226,6 +227,7 @@ class purchase_order(models.Model):
 			string='Tipo de Entrega')
 	purchase_notes = fields.Text('Notas de compra')
 	user_deliver_to = fields.Many2one('res.users',string='Entregar a')
+	
 
 class res_company(models.Model):
 	_inherit = 'res.company'
@@ -313,6 +315,8 @@ class purchase_request_line(models.Model):
 	stock_location = fields.Integer('Stock Deposito')
 	stock_company = fields.Integer('Stock Empresa')
 	po_status = fields.Char('Estado PO',compute=_compute_po_status)
+	estado_linea = fields.Selection(selection=[('progress','En progreso'),('done','Finalizado')],\
+					string='Status del requerimiento')
 
 class stock_move(models.Model):
 	_inherit = 'stock.move'
