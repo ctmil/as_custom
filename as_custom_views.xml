@@ -289,6 +289,11 @@
 		<field name="product_uom_qty" position="replace">
 			<field name="product_uom_qty_int" />
 		</field>
+		<field name="picking_type_id" position="replace">
+		</field>
+		<field name="origin" position="after">
+			<field name="picking_type_id" />
+		</field>
 	    </field>
 	</record>
 
