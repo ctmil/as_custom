@@ -18,16 +18,25 @@ class purchase_order_select_request(models.TransientModel):
 
         request_id = fields.Many2one('purchase.request',string='Requerimiento')
 	request_lines = fields.One2many(comodel_name='purchase.order.select.request.line',inverse_name='header_id',string='Lineas')
+	approve_entire_request = fields.Boolean(string='Aprueba toda la requisicion')
 
         @api.multi
         def confirm_line(self):
-		for line in self.request_lines:
-			vals = {
-				'estado_linea': line.action,
-				'comments_po': line.comments,
-				}
-			request_line = line.line_id
-			request_line.write(vals)
+		if self.approve_entire_request:
+			for line in self.request_lines:
+				vals = {
+					'estado_linea': 'done',
+					}
+				request_line = line.line_id
+				request_line.write(vals)
+		else:	
+			for line in self.request_lines:
+				vals = {
+					'estado_linea': line.action,
+					'comments_po': line.comments,
+					}
+				request_line = line.line_id
+				request_line.write(vals)
 		return None
 
 

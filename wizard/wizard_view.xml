@@ -9,6 +9,9 @@
                                         <group>
                                                 <field name="request_id" readonly="1"/>
                                         </group>
+                                        <group>
+                                                <field name="approve_entire_request" />
+                                        </group>
                                         <field name="request_lines">
                                                 <tree string="Lineas" create="false" delete="false" editable="bottom">
                                                         <field name="line_id" readonly="1"/>
