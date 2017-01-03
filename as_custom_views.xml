@@ -160,7 +160,8 @@
 			<field name="stock_company" />
 		</field>
 		<button name="button_cancel" position="after">
-			<button name="complete_request" string="Finalizar Requerimiento" type="object" />
+			<button name="complete_request" string="Finalizar Requerimiento" type="object" 
+				states="purchase,done"/>
 		</button>
                 <!-- xpath expr="//field[@name='order_line']/form/sheet/notebook/page/field[@name='name']" position="after">
 			<field name="purchase_request_lines" widget="many2many_tags" readonly="0"
