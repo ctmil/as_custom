@@ -317,6 +317,7 @@ class purchase_request_line(models.Model):
 	po_status = fields.Char('Estado PO',compute=_compute_po_status)
 	estado_linea = fields.Selection(selection=[('progress','En progreso'),('done','Finalizado')],\
 					string='Status del requerimiento')
+	comments_po = fields.Text(string='Comentarios PO')
 
 class stock_move(models.Model):
 	_inherit = 'stock.move'

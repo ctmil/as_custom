@@ -7,12 +7,14 @@
                         <field name="arch" type="xml">
                                 <form string="Finalizar Requerimiento">
                                         <group>
-                                                <field name="request_id" />
+                                                <field name="request_id" readonly="1"/>
                                         </group>
                                         <field name="request_lines">
                                                 <tree string="Lineas" create="false" delete="false" editable="bottom">
                                                         <field name="line_id" readonly="1"/>
+							<field name="qty" readonly="1" />
                                                         <field name="action" string="Accion"/>
+							<field name="comments" string="Comentarios" />
                                                 </tree>
                                         </field>
                                         <button name="confirm_line" type="object" string="OK" />

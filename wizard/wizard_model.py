@@ -24,6 +24,7 @@ class purchase_order_select_request(models.TransientModel):
 		for line in self.request_lines:
 			vals = {
 				'estado_linea': line.action,
+				'comments_po': line.comments,
 				}
 			request_line = line.line_id
 			request_line.write(vals)
@@ -37,3 +38,4 @@ class purchase_order_select_request_line(models.TransientModel):
 	line_id = fields.Many2one('purchase.request.line',string='Linea')
 	qty = fields.Integer(string='Cantidad')
 	action = fields.Selection(selection=[('progress','En Progreso'),('done','Finalizada')],string='Finalizada')
+	comments = fields.Text(string='Comentarios')
