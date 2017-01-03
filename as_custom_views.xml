@@ -303,6 +303,9 @@
 		<field name="origin" position="after">
 			<field name="picking_type_id" />
 		</field>
+		<field name="picking_type_id" position="attributes">
+			<attribute name="string">Entregar en</attribute>
+		</field>
 	    </field>
 	</record>
 
