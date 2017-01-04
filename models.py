@@ -317,7 +317,7 @@ class purchase_request_line(models.Model):
 				qty_company += quant.qty
 			vals['stock_company'] = qty_company
                         parent_location_id = self.env['stock.location'].search([('name','=','VS'),('usage','=','view')])
-                        location_id = self.env['stock.location'].search([('name','=','Stock')],('location_id','=',parent_location_id.id))
+                        location_id = self.env['stock.location'].search([('name','=','Stock'),('location_id','=',parent_location_id.id)])
                         if picking_type:
                                 if picking_type.default_location_dest_id:
                                         quants = self.env['stock.quant'].search([('product_id','=',product.id),\
@@ -350,7 +350,7 @@ class purchase_request_line(models.Model):
 				qty_company += quant.qty
 			vals['stock_company'] = qty_company
                         parent_location_id = self.env['stock.location'].search([('name','=','VS'),('usage','=','view')])
-                        location_id = self.env['stock.location'].search([('name','=','Stock')],('location_id','=',parent_location_id.id))
+                        location_id = self.env['stock.location'].search([('name','=','Stock'),('location_id','=',parent_location_id.id)])
                         if picking_type:
                                 if picking_type.default_location_dest_id:
                                         quants = self.env['stock.quant'].search([('product_id','=',product.id),\
