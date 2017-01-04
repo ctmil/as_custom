@@ -62,6 +62,14 @@ class purchase_order_line(models.Model):
 class purchase_order(models.Model):
 	_inherit = 'purchase.order'
 
+
+	@api.multi
+	def action_rfq_send(self):
+		body_msg = self.name + ' fue enviado a proveedor.'
+		self.message_post(body=body_msg, subject='Mail enviado', subtype='mt_comment')
+		return super(purchase_order,self).action_rfq_send()
+
+
 	@api.multi
 	def complete_request(self):
 		if len(self) > 1:
