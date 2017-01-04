@@ -42,6 +42,7 @@
 		<field name="product_qty" position="after">
 			<field name="stock_location" />
 			<field name="stock_company" />
+			<field name="stock_valle_soleado" />
 		</field>
             </field>
         </record>

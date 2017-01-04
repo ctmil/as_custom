@@ -35,6 +35,23 @@ class purchase_order_line(models.Model):
 	_inherit = 'purchase.order.line'
 
 	@api.one
+	def _compute_stock_valle_soleado(self):
+		if self.order_id.state in ['draft','sent']:
+			product = self.product_id
+			order =  self.order_id
+			picking_type = order.picking_type_id
+			parent_location_id = self.env['stock.location'].search([('name','=','VS'),('usage','=','view')])
+			location_id = self.env['stock.location'].search([('name','=','Stock')],('location_id','=',parent_location_id.id))
+			if picking_type:
+				if picking_type.default_location_dest_id:
+					quants = self.env['stock.quant'].search([('product_id','=',product.id),\
+						('location_id','=',location_id.id)])
+					qty_location = 0
+					for quant in quants:
+						qty_location += quant.qty
+					self.stock_valle_soleado = qty_location
+
+	@api.one
 	def _compute_stock(self):
 		if self.order_id.state in ['draft','sent']:
 			product = self.product_id
@@ -57,6 +74,7 @@ class purchase_order_line(models.Model):
 
 	stock_location = fields.Integer('Stock Deposito',compute=_compute_stock)
 	stock_company = fields.Integer('Stock Empresa',compute=_compute_stock)
+	stock_valle_soleado = fields.Integer('Stock Valle Soleado',compute=_compute_stock_valle_soleado)
 
 
 class purchase_order(models.Model):
