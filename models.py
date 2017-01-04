@@ -316,6 +316,17 @@ class purchase_request_line(models.Model):
 			for quant in quants:
 				qty_company += quant.qty
 			vals['stock_company'] = qty_company
+                        parent_location_id = self.env['stock.location'].search([('name','=','VS'),('usage','=','view')])
+                        location_id = self.env['stock.location'].search([('name','=','Stock')],('location_id','=',parent_location_id.id))
+                        if picking_type:
+                                if picking_type.default_location_dest_id:
+                                        quants = self.env['stock.quant'].search([('product_id','=',product.id),\
+                                                ('location_id','=',location_id.id)])
+                                        qty_location = 0
+                                        for quant in quants:
+                                                qty_location += quant.qty
+                                        vals['stock_valle_soleado'] = qty_location
+
         	return super(purchase_request_line, self).create(vals)
 	
 	@api.multi
@@ -338,6 +349,16 @@ class purchase_request_line(models.Model):
 			for quant in quants:
 				qty_company += quant.qty
 			vals['stock_company'] = qty_company
+                        parent_location_id = self.env['stock.location'].search([('name','=','VS'),('usage','=','view')])
+                        location_id = self.env['stock.location'].search([('name','=','Stock')],('location_id','=',parent_location_id.id))
+                        if picking_type:
+                                if picking_type.default_location_dest_id:
+                                        quants = self.env['stock.quant'].search([('product_id','=',product.id),\
+                                                ('location_id','=',location_id.id)])
+                                        qty_location = 0
+                                        for quant in quants:
+                                                qty_location += quant.qty
+                                        vals['stock_valle_soleado'] = qty_location
                 return super(purchase_request_line, self).write(vals)
 	
 
@@ -348,6 +369,7 @@ class purchase_request_line(models.Model):
 					compute=_compute_line_status,string='Estado del requerimiento')
 	stock_location = fields.Integer('Stock Deposito')
 	stock_company = fields.Integer('Stock Empresa')
+	stock_valle_soleado = fields.Integer('Stock Valle Soleado')
 	po_status = fields.Char('Estado PO',compute=_compute_po_status)
 	estado_linea = fields.Selection(selection=[('progress','En progreso'),('done','Finalizado')],\
 					string='Status del requerimiento')
