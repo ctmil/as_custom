@@ -243,6 +243,13 @@ class purchase_order(models.Model):
 			if dates:
 				self.fecha_recepcion = ','.join(dates)
 
+	@api.one
+	def _compute_tender_id(self):
+		if self.origin:
+			tender_ids = self.env['purchase.requisition'].search([('name','=',self.origin)])
+			if tender_ids:
+				self.tender_id = tender_ids[0].id	
+
 
 	request_id = fields.Many2one('purchase.request',string='Requisicion',compute=_compute_request_id)
 	request_name = fields.Char(string='Requisicion',compute=_compute_request_name)
@@ -253,6 +260,7 @@ class purchase_order(models.Model):
 			string='Tipo de Entrega')
 	purchase_notes = fields.Text('Notas de compra')
 	user_deliver_to = fields.Many2one('res.users',string='Entregar a')
+	tender_id = fields.Many2one('purchase.requisition',string='Licitacion',compute=_compute_tender_id)
 	
 
 class res_company(models.Model):

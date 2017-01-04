@@ -155,7 +155,7 @@
 			<field name="user_deliver_to" />
 			<!-- field name="request_name" / -->
 			<field name="request_id" />
-			<field name="requisition_id" />
+			<field name="tender_id" />
 		</field>
 		<field name="product_qty" position="after">
 			<field name="stock_location" />
