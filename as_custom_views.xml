@@ -367,7 +367,11 @@
     <menuitem action="action_receipt_picking_move_custom" id="menu_action_picking_tree_in_move_custom"
             parent="purchase.menu_purchase_control" sequence="12"/>
 
-	
+	<!-- Add menu entry in Settings/Email -->
+	<menuitem name="Tracking emails" id="as_custom_menu_mail_tracking_email"
+        	  parent="purchase.menu_purchase_control"
+	          action="mail_tracking.action_view_mail_tracking_email"/>
+
 
   </data>
 </openerp>
