@@ -168,7 +168,14 @@
 				states="purchase,done"/>
 		</button>
 		<field name="order_line" position="after">
-			<field name="summary_ids" readonly="1" />
+			<field name="summary_ids" readonly="1">
+				<tree string="Summary">
+					<field name="product_id" />
+					<field name="product_qty" />
+					<field name="price_unit" />
+					<field name="price_subtotal" />
+				</tree>
+			</field>
 		</field>
             </field>
         </record>
