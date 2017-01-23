@@ -52,7 +52,7 @@ class purchase_order_line_summary(models.Model):
 		tools.drop_view_if_exists(cr, 'purchase_order_line_summary')
 
 	        cr.execute(""" CREATE VIEW purchase_order_line_summary AS (
-	            SELECT order_id,product_id,sum(product_qty) as product_qty, sum(price_subtotal) as price_subtotal
+	            SELECT max(id) as id,order_id,product_id,sum(product_qty) as product_qty, sum(price_subtotal) as price_subtotal
 			from purchase_order_line
 			group by order_id,product_id)
 			""")
