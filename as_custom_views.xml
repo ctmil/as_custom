@@ -77,6 +77,7 @@
 		<field name="product_qty" position="after">
 			<field name="stock_location" />
 			<field name="stock_company" />
+			<field name="stock_valle_soleado" />
 		</field>
             </field>
         </record>
@@ -160,6 +161,7 @@
 		<field name="product_qty" position="after">
 			<field name="stock_location" />
 			<field name="stock_company" />
+			<field name="stock_valle_soleado" />
 		</field>
 		<button name="button_cancel" position="after">
 			<button name="complete_request" string="Finalizar Requerimiento" type="object" 

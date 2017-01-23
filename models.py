@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from openerp import models, fields, api, _
+from openerp import models, fields, api, _, tools
 from openerp.osv import osv
 from openerp.exceptions import except_orm, ValidationError
 from StringIO import StringIO
@@ -29,6 +29,35 @@ class product_product(models.Model):
                         data.append((product.id,display_value))
                 return data
 """
+
+class purchase_order_line_summary(models.Model):
+	_name = 'purchase.order.line.summary'
+	_description = 'Purchase Order Line Summary'
+	_auto = False
+
+	@api.one
+	def _compute_price_unit(self):
+		if self.product_qty > 0:
+			self.price_unit = self.price_subtotal / self.product_qty
+
+	order_id = fields.Many2one('purchase.order',string='Orden')
+	product_id = fields.Many2one('product.product',string='Producto')
+	product_qty = fields.Float('Cantidad')
+	price_subtotal = fields.Float('Total Linea')
+	price_unit = fields.Float('Precio Unitario',compute=_compute_price_unit)
+
+	
+	def init(self, cr):
+        	"""Initialize the sql view for the event registration """
+		tools.drop_view_if_exists(cr, 'vw_purchase_order_line_summary')
+
+	        cr.execute(""" CREATE VIEW vw_purchase_order_line_summary AS (
+	            SELECT order_id,product_id,sum(product_qty) as product_qty, sum(price_subtotal) as price_subtotal
+			from purchase_order_line
+			group by order_id,product_id
+			""")
+
+	
 
 
 class purchase_order_line(models.Model):
@@ -261,7 +290,7 @@ class purchase_order(models.Model):
 	purchase_notes = fields.Text('Notas de compra')
 	user_deliver_to = fields.Many2one('res.users',string='Entregar a')
 	tender_id = fields.Many2one('purchase.requisition',string='Licitacion',compute=_compute_tender_id)
-	
+	summary_ids = fields.One2many(comodel_name='purchase.order.line.summary',inverse_name='order_id')
 
 class res_company(models.Model):
 	_inherit = 'res.company'
