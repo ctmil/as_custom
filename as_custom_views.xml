@@ -167,10 +167,9 @@
 			<button name="complete_request" string="Finalizar Requerimiento" type="object" 
 				states="purchase,done"/>
 		</button>
-                <!-- xpath expr="//field[@name='order_line']/form/sheet/notebook/page/field[@name='name']" position="after">
-			<field name="purchase_request_lines" widget="many2many_tags" readonly="0"
-				domain="[('request_id', '=', parent.request_id)]"/>
-		</xpath -->
+		<field name="order_line" position="after">
+			<field name="summary_ids" readonly="1" />
+		</field>
             </field>
         </record>
 

@@ -49,9 +49,9 @@ class purchase_order_line_summary(models.Model):
 	
 	def init(self, cr):
         	"""Initialize the sql view for the event registration """
-		tools.drop_view_if_exists(cr, 'vw_purchase_order_line_summary')
+		tools.drop_view_if_exists(cr, 'purchase_order_line_summary')
 
-	        cr.execute(""" CREATE VIEW vw_purchase_order_line_summary AS (
+	        cr.execute(""" CREATE VIEW purchase_order_line_summary AS (
 	            SELECT order_id,product_id,sum(product_qty) as product_qty, sum(price_subtotal) as price_subtotal
 			from purchase_order_line
 			group by order_id,product_id)
