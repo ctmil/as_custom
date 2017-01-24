@@ -171,9 +171,12 @@
 			<field name="summary_ids" readonly="1">
 				<tree string="Summary">
 					<field name="product_id" />
+					<field name="name" />
+					<field name="product_uom" />
 					<field name="product_qty" />
 					<field name="price_unit" />
 					<field name="price_subtotal" />
+					<field name="discount" />
 				</tree>
 			</field>
 		</field>

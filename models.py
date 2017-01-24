@@ -42,9 +42,12 @@ class purchase_order_line_summary(models.Model):
 
 	order_id = fields.Many2one('purchase.order',string='Orden')
 	product_id = fields.Many2one('product.product',string='Producto')
+	name = fields.Char('Nombre')
+	product_uom = fields.Many2one('product.uom',string='Unidad de medida')
 	product_qty = fields.Float('Cantidad')
 	price_subtotal = fields.Float('Total Linea')
 	price_unit = fields.Float('Precio Unitario',compute=_compute_price_unit)
+	discount = fields.Float('Descuento')
 
 	
 	def init(self, cr):
@@ -52,9 +55,10 @@ class purchase_order_line_summary(models.Model):
 		tools.drop_view_if_exists(cr, 'purchase_order_line_summary')
 
 	        cr.execute(""" CREATE VIEW purchase_order_line_summary AS (
-	            SELECT max(id) as id,order_id,product_id,sum(product_qty) as product_qty, sum(price_subtotal) as price_subtotal
+	            SELECT max(id) as id,order_id,product_id,name,product_uom,sum(product_qty) as product_qty, 
+			sum(price_subtotal) as price_subtotal,avg(discount) as discount 
 			from purchase_order_line
-			group by order_id,product_id)
+			group by order_id,product_id,name,product_uom)
 			""")
 
 	
