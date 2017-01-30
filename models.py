@@ -69,6 +69,7 @@ class purchase_order_line(models.Model):
 
 	@api.one
 	def _compute_stock_valle_soleado(self):
+		self.stock_valle_soleado = 0
 		if self.order_id.state in ['draft','sent']:
 			product = self.product_id
 			order =  self.order_id
