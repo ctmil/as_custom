@@ -70,15 +70,13 @@ class purchase_order_line(models.Model):
 	@api.one
 	def _compute_stock_valle_soleado(self):
 		self.stock_valle_soleado = 0
-		return None
-		"""
 		if self.order_id.state in ['draft','sent']:
 			product = self.product_id
 			order =  self.order_id
 			picking_type = order.picking_type_id
 			parent_location_id = self.env['stock.location'].search([('name','=','VS'),('usage','=','view')])
 			if parent_location_id:
-				location_id = self.env['stock.location'].search([('name','=','Stock')],('location_id','=',parent_location_id.id))
+				location_id = self.env['stock.location'].search([('name','=','Stock'),('location_id','=',parent_location_id.id)])
 				if picking_type:
 					if picking_type.default_location_dest_id:
 						quants = self.env['stock.quant'].search([('product_id','=',product.id),\
@@ -87,7 +85,7 @@ class purchase_order_line(models.Model):
 						for quant in quants:
 							qty_location += quant.qty
 						self.stock_valle_soleado = qty_location
-		"""
+		
 
 	@api.one
 	def _compute_stock(self):
