@@ -326,6 +326,18 @@
 	    </field>
 	</record>
 
+        <record id="view_move_search_v2" model="ir.ui.view">
+            <field name="name">view.move.search.v2</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_search"/>
+            <field name="arch" type="xml">
+		<field name="product_id" position="after">
+			<filter string="Retirar en Proveedor" name="supplier" domain="[('tipo_entrega','=','proveedor')]" />
+			<filter string="Deposito Propio" name="propio" domain="[('tipo_entrega','=','propio')]" />
+		</field>
+	    </field>
+	</record>
+
         <record id="view_move_tree_receipt_picking_custom" model="ir.ui.view">
             <field name="name">stock.move.tree3</field>
             <field name="model">stock.move</field>
@@ -350,6 +362,8 @@
                 </tree>
             </field>
         </record>
+
+
 
 
         <record id="action_receipt_picking_move_custom" model="ir.actions.act_window">
