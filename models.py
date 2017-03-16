@@ -314,7 +314,14 @@ class purchase_request_line(models.Model):
 		names = []
 		for line in self.purchase_lines:
 			if line.order_id:
-				names.append(line.order_id.name + ' (' + line.order_id.state + ')')
+				estados = {
+					'draft':'borrador',
+					'sent': 'enviado',
+					'purchase': 'en proceso',
+					'done': 'finalizada',
+					'cancel': 'cancelada'
+					}
+				names.append(line.order_id.name + ' (' + estados[line.order_id.state] + ')')
 		if names:
 			self.po_status = ','.join(names)
 
