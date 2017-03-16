@@ -434,12 +434,19 @@ class stock_move(models.Model):
 	def _compute_product_uom_qty_int(self):
 		self.product_uom_qty_int = int(self.product_uom_qty)
 	
+	@api.one
+	def _compute_po_id(self):
+		po_id = self.env['purchase.order'].search([('name','=',self.origin)])
+		if po_id:
+			self.po_id = po_id.id
+	
 	brand_id = fields.Many2one('product.brand',string='Marca',related="product_id.product_tmpl_id.product_brand_id")
 	categ_id = fields.Many2one('product.category',string='Categoria',related="product_id.product_tmpl_id.categ_id")
 	tipo_entrega = fields.Selection(selection=[('propio','Deposito Propio'),('proveedor','Deposito Proveedor')],\
 			string='Tipo de Entrega',related='picking_id.purchase_id.tipo_entrega')
 	request_name = fields.Char('Requerimientos',compute=_compute_request_name)
 	product_uom_qty_int = fields.Integer('Cantidad',compute=_compute_product_uom_qty_int)
+	po_id = fields.Many2one('purchase.order',string='Orden de Compra',compute='_compute_po_id')
 
 class purchase_order_line(models.Model):
 	_inherit = 'purchase.order.line'
