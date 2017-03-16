@@ -175,8 +175,8 @@
 					<field name="product_uom" />
 					<field name="product_qty" />
 					<field name="price_unit" />
-					<field name="price_subtotal" />
 					<field name="discount" />
+					<field name="price_subtotal" />
 				</tree>
 			</field>
 		</field>
