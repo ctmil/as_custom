@@ -108,10 +108,21 @@ class purchase_order_line(models.Model):
 				qty_company += quant.qty
 			self.stock_company = qty_company
 
+	@api.one
+	def _compute_item_in_pr(self):
+		order = self.order_id
+		return_value = False
+		if order.request_id:
+			for line in order.request_id.line_ids:
+				if line.product_id.id == self.product_id.id:
+					return_value = True
+					break
+		self.item_in_pr = return_value
+
 	stock_location = fields.Integer('Stock Deposito',compute=_compute_stock)
 	stock_company = fields.Integer('Stock Empresa',compute=_compute_stock)
 	stock_valle_soleado = fields.Integer('Stock Valle Soleado',compute=_compute_stock_valle_soleado)
-
+	item_in_pr = fields.Boolean('En PR',compute=_compute_item_in_pr)
 
 class purchase_order(models.Model):
 	_inherit = 'purchase.order'
