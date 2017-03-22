@@ -329,6 +329,7 @@ class purchase_request_line(models.Model):
 					'draft':'borrador',
 					'sent': 'enviado',
 					'purchase': 'en proceso',
+					'to approve': 'para aprobar',
 					'done': 'finalizada',
 					'cancel': 'cancelada'
 					}
