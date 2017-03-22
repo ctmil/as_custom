@@ -183,8 +183,35 @@
 		    <span t-field="o.tipo_entrega" />
 		</div>
 	    </div>
-
-	    <p>Por <span t-field="o.company_id.parent_id.name" />, preparado por <span t-field="o.create_uid.partner_id.name" /></p>
+            <div class="row mt32 mb32" >
+	  	<div class="col-xs-12">
+		</div> 
+	    </div> 
+            <div class="row mt32 mb32" >
+	  	<div class="col-xs-12">
+		</div> 
+	    </div> 
+            <div class="row mt32 mb32" >
+	  	<div class="col-xs-12">
+		</div> 
+	    </div> 
+            <div class="row" >
+	  	<div class="col-xs-6">
+		</div> 
+	  	<div class="col-xs-6">
+			<span t-field="o.create_uid.partner_id.name" />
+		</div> 
+	    </div> 
+            <div class="row" >
+	  	<div class="col-xs-6">
+		</div> 
+	  	<div class="col-xs-6">
+			p. 
+			<span t-if="o.company_id.parent_id.name" t-field="o.company_id.parent_id.name" />
+			<span t-if="o.company_id.name and not o.company_id.partner_id.name" t-field="o.company_id.name" />
+		</div> 
+	    </div>
+	    <!-- p>Por <span t-field="o.company_id.parent_id.name" />, preparado por <span t-field="o.create_uid.partner_id.name" /></p -->
 
             <div class="oe_structure"/>
         </div>
@@ -374,7 +401,35 @@
 		</div>
 	    </div>
 
-	    <p>Por <span t-field="o.company_id.parent_id.name" />, preparado por <span t-field="o.create_uid.partner_id.name" /></p>
+            <div class="row mt32 mb32" >
+	  	<div class="col-xs-12">
+		</div> 
+	    </div> 
+            <div class="row mt32 mb32" >
+	  	<div class="col-xs-12">
+		</div> 
+	    </div> 
+            <div class="row mt32 mb32" >
+	  	<div class="col-xs-12">
+		</div> 
+	    </div> 
+            <div class="row" >
+	  	<div class="col-xs-6">
+		</div> 
+	  	<div class="col-xs-6">
+			<span t-field="o.create_uid.partner_id.name" />
+		</div> 
+	    </div> 
+            <div class="row" >
+	  	<div class="col-xs-6">
+		</div> 
+	  	<div class="col-xs-6">
+			p. 
+			<span t-if="o.company_id.parent_id.name" t-field="o.company_id.parent_id.name" />
+			<span t-if="o.company_id.name and not o.company_id.partner_id.name" t-field="o.company_id.name" />
+		</div> 
+	    </div>
+	    <!-- p>Por <span t-field="o.company_id.parent_id.name" />, preparado por <span t-field="o.create_uid.partner_id.name" /></p -->
 
             <div class="oe_structure"/>
         </div>
