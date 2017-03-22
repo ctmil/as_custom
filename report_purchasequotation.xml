@@ -191,6 +191,196 @@
     </t>
 </template>
 
+<template id="report_requisicion_obra_document">
+    <t t-call="report.external_layout">
+        <div class="page">
+
+	    <div class="row mt32 mb32" style="border-bottom: 1px solid black;">	
+		    <div t-if="o.company_id.parent_id" class="header">
+        		    <div class="col-xs-3">
+	                	<img t-if="o.company_id.parent_id.logo" t-att-src="'data:image/png;base64,%s' % o.company_id.parent_id.logo" style="max-height: 45px;"/>
+	        	    </div>
+	        	    <div class="col-xs-3" name="company_address">
+        	        	<div t-field="o.company_id.parent_id.partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: true}" />
+	        	    </div>
+		    </div>
+		    <div t-if="not o.company_id.parent_id" class="header">
+        		    <div class="col-xs-3">
+	                	<img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % o.company_id.logo" style="max-height: 45px;"/>
+	        	    </div>
+	        	    <div class="col-xs-3" name="company_address">
+        	        	<div t-field="o.company_id.partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: true}" />
+	        	    </div>
+		    </div>
+		    <div class="col-xs-6">
+		            <h1>
+				<span t-if="o.state == 'draft' or o.state == 'sent'">Requisición de Obra</span>
+				<span t-if="o.state == 'purchase'">Requisición de Obra</span>
+				<span t-field="o.name" />
+			    </h1>
+		    </div>
+	    </div>
+            <div class="oe_structure"/>
+
+            <div class="row mt32 mb32">
+                <div class="col-xs-4">
+                    <strong>Facturar a:</strong>
+                    <div t-if="o.company_id.partner_id">
+                        <div t-field="o.company_id.partner_id"
+                            t-field-options='{"widget": "contact", "fields": ["address", "name", "phone", "fax"], "no_marker": true, "phone_icons": true}'/>
+                    </div>
+                    <p t-if="o.company_id.partner_id.vat">CUIT: <span t-field="o.company_id.partner_id.vat"/></p>
+		</div>
+                <div class="col-xs-4">
+                    <strong>Dirección envio:</strong>
+                    <div t-if="o.dest_address_id">
+                        <div t-field="o.dest_address_id"
+                            t-field-options='{"widget": "contact", "fields": ["address", "name", "phone", "fax"], "no_marker": true, "phone_icons": true}'/>
+                    </div>
+                    <div t-if="not o.dest_address_id and o.picking_type_id.warehouse_id">
+                        <span t-field="o.picking_type_id.warehouse_id.name"/>
+                        <div t-field="o.picking_type_id.warehouse_id.partner_id"
+                            t-field-options='{"widget": "contact", "fields": ["address", "phone", "fax"], "no_marker": true, "phone_icons": true}'/>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <strong>Proveedor:</strong>
+                    <div t-field="o.partner_id"
+                        t-field-options='{"widget": "contact", "fields": ["address", "name", "phone", "fax"], "no_marker": true, "phone_icons": true}'/>
+                        <p t-if="o.partner_id.vat">CUIT: <span t-field="o.partner_id.vat"/></p>
+                </div>
+            </div>
+
+
+            <div class="row mt32 mb32">
+                <div class="col-xs-2">
+                    <strong>Fecha</strong>
+                    <div t-if="o.date_order">
+			<span t-field="o.date_order" t-field-options='{"format": "dd/MM/y"}'/>
+		    </div>
+		</div>
+                <div class="col-xs-2">
+                    <strong>Fecha Límite</strong>
+                    <div t-if="o.date_planned">
+			<span t-field="o.date_planned" t-field-options='{"format": "dd/MM/y"}'/>
+		    </div>
+		</div>
+                <div class="col-xs-2">
+                    <strong>Requisición</strong>
+		    <div t-if="o.request_name">
+			    <span t-field="o.request_name" />
+		    </div>
+		</div>
+                <div class="col-xs-2">
+                    <strong>Ref.Proveedor</strong>
+		    <div t-if="o.partner_ref">
+			    <span t-field="o.partner_ref" />
+		    </div>
+		</div>
+                <div class="col-xs-2">
+                    <strong>Aprobado por</strong>
+		    <div t-if="o.approver_id">
+			    <span t-field="o.approver_id" />
+		    </div>
+		</div>
+	    </div>
+
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th><strong>IT</strong></th>
+                        <th><strong>Detalle</strong></th>
+                        <th><strong>Marca</strong></th>
+                        <th class="text-right"><strong>Cant.</strong></th>
+                        <th class="text-right"><strong>$ Unit.</strong></th>
+                        <th class="text-right"><strong>% Dto.</strong></th>
+                        <th class="text-right"><strong>$ Total</strong></th>
+                    </tr>
+                </thead>
+                <tbody>
+		    <t t-set="i" t-value="1"/>
+                    <tr t-foreach="o.order_line" t-as="order_line">
+                        <td>
+                            <span t-esc="i"/> 
+                        </td>
+                        <td>
+                            <span t-field="order_line.name"/>
+                        </td>
+                        <td>
+                            <span t-field="order_line.product_id.product_tmpl_id.product_brand_id.name"/>
+                        </td>
+                        <td class="text-right">
+                            <span t-field="order_line.product_qty"/>
+                            <span t-field="order_line.product_uom" groups="product.group_uom"/>
+                        </td>
+                        <td class="text-right">
+                            <span t-field="order_line.price_unit"/>
+                        </td>
+                        <td class="text-right">
+                            <span t-field="order_line.discount"/>
+                        </td>
+                        <td class="text-right">
+                            <span t-field="order_line.price_total"/>
+                        </td>
+			<t t-set="i" t-value="i+1"/>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="row">
+                <div class="col-xs-4 pull-right">
+                    <table class="table table-condensed">
+                        <tr class="border-black">
+                            <td><strong>Subtotal</strong></td>
+                            <td class="text-right">
+                                <span t-field="o.amount_untaxed" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                            </td>
+                        </tr>
+                        <tr class="border-black">
+                            <td><strong>Impuestos</strong></td>
+                            <td class="text-right">
+                                <span t-field="o.amount_tax" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                            </td>
+			</tr>
+                        <tr class="border-black">
+                            <td><strong>Total</strong></td>
+                            <td class="text-right">
+                                 <span t-field="o.amount_total" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+
+            <p t-field="o.notes"/>
+
+	    <!-- div t-if="o.company_id.purchase_notes">
+		<p t-field="o.y_id.purchase_notes" />
+	    </div -->
+
+  	    <p>IMPORTANTE ! Sr. Proveedor, tenga presente: El número de ésta orden de compra debe aparecer en todas los documentos (factura/s, remito/s, etc.) y/o correspondencia/s relacionados con los artículos / productos / servicios incluidos en la presente.</p>
+	   
+            <div class="row mt32 mb32" t-if="o.user_deliver_to" >
+                <div class="col-xs-6">
+                    <strong>Entregar a </strong>
+		    <span t-field="o.user_deliver_to" />
+		</div>
+	    </div>
+            <div class="row mt32 mb32" t-if="o.tipo_entrega" >
+                <div class="col-xs-6">
+                    <strong>Tipo Entrega </strong>
+		    <span t-field="o.tipo_entrega" />
+		</div>
+	    </div>
+
+	    <p>Por <span t-field="o.company_id.parent_id.name" />, preparado por <span t-field="o.create_uid.partner_id.name" /></p>
+
+            <div class="oe_structure"/>
+        </div>
+    </t>
+</template>
+
 <template id="report_purchasequotation">
     <t t-call="report.html_container">
         <t t-foreach="docs" t-as="o">
@@ -198,6 +388,17 @@
         </t>
     </t>
 </template>
+
+<template id="report_requisicion_obra">
+    <t t-call="report.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="as_custom.report_requisicion_obra_document" t-lang="o.partner_id.lang"/>
+        </t>
+    </t>
+</template>
+
+
+
 </data>
 </openerp>
     

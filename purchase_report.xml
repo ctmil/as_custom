@@ -18,6 +18,14 @@
             name="as_custom.report_purchasequotation" 
             file="as_custom.report_purchasequotation"
         />
+        <report 
+            string="Requisición de Obra" 
+            id="as_report_requisicion_obra" 
+            model="purchase.order" 
+            report_type="qweb-pdf"
+            name="as_custom.report_requisicion_obra" 
+            file="as_custom.report_requisicion_obra"
+        />
     </data>
 </openerp>
 
