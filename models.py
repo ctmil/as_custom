@@ -521,3 +521,13 @@ class stock_picking(models.Model):
 	nro_remito = fields.Char('Nro.Remito')
 	fecha_entrega = fields.Date('Fecha de Entrega')	
 	product_uom_qty_int = fields.Integer('Cantidad',compute=_compute_product_uom_qty_int)
+
+class res_partner(models.Model):
+	_inherit = 'res.partner'
+
+	@api.one
+	def _compute_cuit(self):
+		if self.vat and len(self.vat) > 2:
+			self.cuit = self.vat[2:]
+	
+	cuit = fields.Char('CUIT',compute=_compute_cuit)
