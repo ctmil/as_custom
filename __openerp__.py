@@ -28,6 +28,7 @@
 	'security/ir.model.access.csv',
 	'report_purchasequotation.xml',
 	'as_custom_views.xml',
+	#'obra_view.xml',
 	'wizard/wizard_view.xml'
     ],
     'demo_xml': [
