@@ -627,6 +627,7 @@ class purchase_request_line(models.Model):
 			(11,'Licitación en proceso. Se espera aprobacion de las POs'),
 			(12,'Licitación en proceso. Se esperan los materiales del proveedor'),
 			(13,'Licitación finalizada')
+			(14,'Check admin')
 			]
 
 	compras_status_index = fields.Selection(selection=status_index,compute=_compute_compras_status,search=_po_status_search)
