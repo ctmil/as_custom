@@ -434,6 +434,10 @@ class purchase_request_line(models.Model):
 	@api.multi
 	def _purchase_status_search(self, operator, operand):
 		list_ids  = []
+		if operand == '0':
+			rql_ids = self.search([('purchase_lines','=',None),('requisition_lines','=',None)])
+			for rql in rql__ids:
+				list_ids.append(rql.id)
 		if operand != '0':
 			if operand in ['1','2','3','4','5','6']:
 				rql_ids = self.search([('purchase_lines','!=',None)])

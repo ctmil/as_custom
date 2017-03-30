@@ -90,6 +90,7 @@
             <field name="inherit_id" ref="purchase_request.purchase_request_line_search"/>
             <field name="arch" type="xml">
 	        <filter name="request_state_draft" position="before">
+                    <filter name="purchase_nothing" string="Sin Gestión de Compras" domain="[('compras_status_index','=','0')]" />
                     <filter name="po_cancelled" string="POs Canceladas" domain="[('compras_status_index','=','1')]" />
                     <filter name="po_draft" string="POs Borrador" domain="[('compras_status_index','=','2')]" />
                     <filter name="po_sent" string="POs Enviadas" domain="[('compras_status_index','=','3')]" />
