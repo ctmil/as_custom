@@ -435,9 +435,12 @@ class purchase_request_line(models.Model):
 	def _purchase_status_search(self, operator, operand):
 		list_ids  = []
 		if operand == '0':
-			rql_ids = self.search([('purchase_lines','=',None),('requisition_lines','=',None)])
-			for rql in rql_ids:
-				list_ids.append(rql.id)
+			rq_ids = self.search([('state','=','approved')])
+			for rq in rq_ids:
+				rql_ids = rq.line_ids:
+				for rql in rql_ids:
+					if not rql.requisition_lines and not rql.purchase_lines:
+						list_ids.append(rql.id)
 		if operand != '0':
 			if operand in ['1','2','3','4','5','6']:
 				rql_ids = self.search([('purchase_lines','!=',None)])
