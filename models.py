@@ -419,6 +419,8 @@ class purchase_request_line(models.Model):
 	@api.one
 	def _compute_compras_status(self):
 		return_value = ''
+		#if self.id == 169:
+		#	import pdb;pdb.set_trace()
 		if self.purchase_lines:
 			value = 0
 			for line in self.purchase_lines:
@@ -441,6 +443,7 @@ class purchase_request_line(models.Model):
 					if value < 6:
 						value = 6
 			mapping_state = {
+				0: 'N/A',
 				1: 'cancelada',
 				2: 'borrador',
 				3: 'enviada a proveedor',
@@ -451,7 +454,53 @@ class purchase_request_line(models.Model):
 			return_value = 'Se generaron POs. Su estado es ' + mapping_state[value]
 		else:
 			if self.requisition_lines:
-				return_value = 'Se generó licitación'
+				value = 0
+				for line in self.requisition_lines:
+					if line.requisition_id.state == 'cancel':
+						if value < 1:
+							value = 1
+					if line.requisition_id.state == 'draft':
+						if value < 2:
+							value = 2
+					if line.requisition_id.state in ['in_progress','open','done']:
+						if not line.requisition_id.purchase_ids:
+							if value < 3:
+								value = 3
+						else:
+							for purchase in line.requisition_id.purchase_ids:
+								if purchase.state == 'cancel':
+									if value < 4:
+										value = 4 
+								if purchase.state == 'draft':
+									if value < 5:
+										value = 5
+								if purchase.state == 'sent':
+									if value < 6:
+										value = 6
+								if purchase.state == 'to approve':
+									if value < 7:
+										value = 7 
+								if purchase.state == 'purchase':
+									if value < 8:
+										value = 8
+								if purchase.state == 'done':
+									if value < 9:
+										value = 9
+							
+					
+				mapping_state = {
+					0: 'N/A',
+					1: 'cancelada',
+					2: 'borrador',
+					3: 'en proceso por Compras. Aun no se generaron POs',
+					4: 'en proceso por Compras. Se generaron POs y se cancelaron',
+					5: 'en proceso por Compras. Se generaron POs en estado borrador',
+					6: 'en proceso por Compras. Se generaron POs y se enviaron a los proveedores',
+					7: 'en proceso por Compras. Se generaron POs y se espera su aprobación',
+					8: 'en proceso por Compras. Se generaron POs y se esperan los materiales del proveedor',
+					9: 'en proceso por Compras. Se generaron POs y se completaron',
+					}				
+				return_value = 'Se generó licitación(es) y su estado es ' + mapping_state[value]
 			else:
 				return_value = 'Please check with admin'	
 		self.compras_status = return_value 
