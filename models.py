@@ -437,7 +437,7 @@ class purchase_request_line(models.Model):
 		if operand == '0':
 			rq_ids = self.search([('state','=','approved')])
 			for rq in rq_ids:
-				rql_ids = rq.line_ids:
+				rql_ids = rq.line_ids
 				for rql in rql_ids:
 					if not rql.requisition_lines and not rql.purchase_lines:
 						list_ids.append(rql.id)
