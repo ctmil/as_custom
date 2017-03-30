@@ -59,6 +59,7 @@
 		<field name="purchase_state" position="after">
 			<field name="estado_linea" />
 			<field name="comments_po" />
+			<field name="compras_status" />
 		</field>
 	    </field>
 	</record>
