@@ -60,6 +60,7 @@
 			<field name="estado_linea" />
 			<field name="comments_po" />
 			<field name="compras_status" />
+			<field name="compras_status_index" />
 		</field>
 	    </field>
 	</record>
@@ -88,10 +89,27 @@
             <field name="model">purchase.request.line</field>
             <field name="inherit_id" ref="purchase_request.purchase_request_line_search"/>
             <field name="arch" type="xml">
+	        <filter name="request_state_draft" position="before">
+                    <filter name="po_cancelled" string="POs Canceladas" domain="[('compras_status_index','=','1')]" />
+                    <filter name="po_draft" string="POs Borrador" domain="[('compras_status_index','=','2')]" />
+                    <filter name="po_sent" string="POs Enviadas" domain="[('compras_status_index','=','3')]" />
+                    <filter name="po_to_approve" string="POs Esperando Aprobación" domain="[('compras_status_index','=','4')]" />
+                    <filter name="po_open" string="POs Esperando Materiales" domain="[('compras_status_index','=','5')]" />
+                    <filter name="po_done" string="POs Finalizadas" domain="[('compras_status_index','=','6')]" />
+                    <filter name="tender_cancelled" string="Licitación Cancelada" domain="[('compras_status_index','=','7')]" />
+                    <filter name="tender_draft" string="Licitación Borrador" domain="[('compras_status_index','=','8')]" />
+                    <filter name="tender_no_pos" string="Licitación Aprobada (sin POs)" domain="[('compras_status_index','=','9')]" />
+                    <filter name="tender_po_sent" string="Licitación en curso (se pidio presupuestos)" domain="[('compras_status_index','=','10')]" />
+                    <filter name="tender_po_to_approve" string="Licitación en curso (se espera aprobación)" domain="[('compras_status_index','=','11')]" />
+                    <filter name="tender_po_done" string="Licitación en curso (esperando materiales del proveedor)" domain="[('compras_status_index','=','12')]" />
+                    <filter name="tender_done" string="Licitación finalizada" domain="[('compras_status_index','=','13')]" />
+		</filter>
 		<field name="product_id" position="after">
 			<field name="brand_id" />
 			<field name="categ_id" />
 			<field name="line_status" />
+			                    <filter name="request_state_draft" string="Draft" domain="[('request_state','=','draft')]" help="Request is to be approved"/>
+	
 		</field>
             </field>
         </record>

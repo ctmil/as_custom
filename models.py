@@ -415,97 +415,195 @@ class purchase_request_line(models.Model):
                                                 qty_location += quant.qty
                                         vals['stock_valle_soleado'] = qty_location
                 return super(purchase_request_line, self).write(vals)
+
+			#(0, 'N/A'),
+			#(1,'PO Cancelada'),
+			#(2,'PO Borrador'),
+			#(3,'PO Enviada'),
+			#(4,'PO esperando aprobación'),
+			#(5,'PO Esperando materiales del proveedor'),
+			#(6,'PO Finalizada'),
+			#(7,'Licitación cancelada'),
+			#(8,'Licitación en borrador'),
+			#(9,'Licitación en proceso. No se generaron POs'),
+			#(10,'Licitación en proceso. Se pidio presupuestos a proveedores'),
+			#(11,'Licitación en proceso. Se espera aprobacion de las POs'),
+			#(12,'Licitación en proceso. Se esperan los materiales del proveedor'),
+			#(13,'Licitación finalizada')
+
+	@api.multi
+	def _purchase_status_search(self, operator, operand):
+		list_ids  = []
+		if operand != '0':
+			if operand in ['1','2','3','4','5','6']:
+				rql_ids = self.search([('purchase_lines','!=',None)])
+				for rql in rql_ids:
+					for purchase_line in rql.purchase_lines:
+						if operand == '1':
+							if purchase_line.state == 'cancel':
+								list_ids.append(rql.id)	
+						if operand == '2':
+							if purchase_line.state == 'draft':
+								list_ids.append(rql.id)	
+						if operand == '3':
+							if purchase_line.state == 'sent':
+								list_ids.append(rql.id)	
+						if operand == '4':
+							if purchase_line.state == 'to approve':
+								list_ids.append(rql.id)	
+						if operand == '5':
+							if purchase_line.state == 'purchase':
+								list_ids.append(rql.id)	
+						if operand == '6':
+							if purchase_line.state == 'done':
+								list_ids.append(rql.id)	
+			else:
+				rql_ids = self.search([('requisition_lines','!=',None)])
+				for line in rql_ids:
+					for requisition in line.requisition_lines:
+						if operand == '7' and requisition.requisition_id.state == 'cancel':
+							list_ids.append(line.id)	
+						if operand == '8' and requisition.requisition_id.state == 'draft':
+							list_ids.append(line.id)	
+						if operand in ['9','10','11','12','13'] and requisition.requisition_id.state in ['in_progress','open','done']:
+							if not requisition.requisition_id.purchase_ids and operand == '9':
+								list_ids.append(line.id)	
+							else:
+								for purchase in requisition.requisition_id.purchase_ids:
+									if purchase.state == 'cancel' and operand == '9':
+										list_ids.append(line.id)	
+									if purchase.state == 'draft' and operand == '9':
+										list_ids.append(line.id)	
+									if purchase.state == 'sent' and operand == '10':
+										list_ids.append(line.id)	
+									if purchase.state == 'to approve' and operand == '11':
+										list_ids.append(line.id)	
+									if purchase.state == 'purchase' and operand == '12':
+										list_ids.append(line.id)	
+									if purchase.state == 'done' and operand == '13':
+										list_ids.append(line.id)	
+							
+
+        	return [('id', 'in', list_ids)]
+
+	@api.model
+	def _po_status_search(self, operator, operand):
+		return self._purchase_status_search( operator, operand)
+
 	
-	@api.one
+	@api.depends('purchase_lines','requisition_lines')
 	def _compute_compras_status(self):
-		return_value = ''
-		#if self.id == 169:
-		#	import pdb;pdb.set_trace()
-		if self.purchase_lines:
-			value = 0
-			for line in self.purchase_lines:
-				if line.order_id.state == 'cancel':
-					if value < 1:
-						value = 1 
-				if line.order_id.state == 'draft':
-					if value < 2:
-						value = 2
-				if line.order_id.state == 'sent':
-					if value < 3:
-						value = 3
-				if line.order_id.state == 'to approve':
-					if value < 4:
-						value = 4 
-				if line.order_id.state == 'purchase':
-					if value < 5:
-						value = 5
-				if line.order_id.state == 'done':
-					if value < 6:
-						value = 6
-			mapping_state = {
-				0: 'N/A',
-				1: 'cancelada',
-				2: 'borrador',
-				3: 'enviada a proveedor',
-				4: 'esperando aprobación',
-				5: 'esperando materiales del proveedor',
-				6: 'finalizada',
-				}				
-			return_value = 'Se generaron POs. Su estado es ' + mapping_state[value]
-		else:
-			if self.requisition_lines:
+		for rec in self:
+			return_value = ''
+			#if self.id == 169:
+			#	import pdb;pdb.set_trace()
+			index_value = 0 
+			if rec.purchase_lines:
 				value = 0
-				for line in self.requisition_lines:
-					if line.requisition_id.state == 'cancel':
+				for line in rec.purchase_lines:
+					if line.order_id.state == 'cancel':
 						if value < 1:
-							value = 1
-					if line.requisition_id.state == 'draft':
+							value = 1 
+					if line.order_id.state == 'draft':
 						if value < 2:
 							value = 2
-					if line.requisition_id.state in ['in_progress','open','done']:
-						if not line.requisition_id.purchase_ids:
-							if value < 3:
-								value = 3
-						else:
-							for purchase in line.requisition_id.purchase_ids:
-								if purchase.state == 'cancel':
-									if value < 4:
-										value = 4 
-								if purchase.state == 'draft':
-									if value < 5:
-										value = 5
-								if purchase.state == 'sent':
-									if value < 6:
-										value = 6
-								if purchase.state == 'to approve':
-									if value < 7:
-										value = 7 
-								if purchase.state == 'purchase':
-									if value < 8:
-										value = 8
-								if purchase.state == 'done':
-									if value < 9:
-										value = 9
-							
-					
+					if line.order_id.state == 'sent':
+						if value < 3:
+							value = 3
+					if line.order_id.state == 'to approve':
+						if value < 4:
+							value = 4 
+					if line.order_id.state == 'purchase':
+						if value < 5:
+							value = 5
+					if line.order_id.state == 'done':
+						if value < 6:
+							value = 6
 				mapping_state = {
 					0: 'N/A',
 					1: 'cancelada',
 					2: 'borrador',
-					3: 'en proceso por Compras. Aun no se generaron POs',
-					4: 'en proceso por Compras. Se generaron POs y se cancelaron',
-					5: 'en proceso por Compras. Se generaron POs en estado borrador',
-					6: 'en proceso por Compras. Se generaron POs y se enviaron a los proveedores',
-					7: 'en proceso por Compras. Se generaron POs y se espera su aprobación',
-					8: 'en proceso por Compras. Se generaron POs y se esperan los materiales del proveedor',
-					9: 'en proceso por Compras. Se generaron POs y se completaron',
-					}				
-				return_value = 'Se generó licitación(es) y su estado es ' + mapping_state[value]
+					3: 'enviada a proveedor',
+					4: 'esperando aprobación',
+					5: 'esperando materiales del proveedor',
+					6: 'finalizada',
+					}	
+				index_value = value			
+				return_value = 'Se generaron POs. Su estado es ' + mapping_state[value]
 			else:
-				return_value = 'Please check with admin'	
-		self.compras_status = return_value 
+				if rec.requisition_lines:
+					value = 0
+					for line in rec.requisition_lines:
+						if line.requisition_id.state == 'cancel':
+							if value < 1:
+								value = 1
+						if line.requisition_id.state == 'draft':
+							if value < 2:
+								value = 2
+						if line.requisition_id.state in ['in_progress','open','done']:
+							if not line.requisition_id.purchase_ids:
+								if value < 3:
+									value = 3
+							else:
+								for purchase in line.requisition_id.purchase_ids:
+									if purchase.state == 'cancel':
+										if value < 4:
+											value = 4 
+									if purchase.state == 'draft':
+										if value < 5:
+											value = 5
+									if purchase.state == 'sent':
+										if value < 6:
+											value = 6
+									if purchase.state == 'to approve':
+										if value < 7:
+											value = 7 
+									if purchase.state == 'purchase':
+										if value < 8:
+											value = 8
+									if purchase.state == 'done':
+										if value < 9:
+											value = 9
+							
+					
+					mapping_state = {
+						0: 'N/A',
+						1: 'cancelada',
+						2: 'borrador',
+						3: 'en proceso por Compras. Aun no se generaron POs',
+						4: 'en proceso por Compras. Se generaron POs y se cancelaron',
+						5: 'en proceso por Compras. Se generaron POs en estado borrador',
+						6: 'en proceso por Compras. Se generaron POs y se enviaron a los proveedores',
+						7: 'en proceso por Compras. Se generaron POs y se espera su aprobación',
+						8: 'en proceso por Compras. Se generaron POs y se esperan los materiales del proveedor',
+						9: 'en proceso por Compras. Se generaron POs y se completaron',
+						}		
+					index_value = 6 + value		
+					return_value = 'Se generó licitación(es) y su estado es ' + mapping_state[value]
+				else:	
+					return_value = 'Please check with admin'	
+			rec.compras_status_index = index_value 
+			rec.compras_status = return_value 
 
 
+	status_index = [
+			(0, 'N/A'),
+			(1,'PO Cancelada'),
+			(2,'PO Borrador'),
+			(3,'PO Enviada'),
+			(4,'PO esperando aprobación'),
+			(5,'PO Esperando materiales del proveedor'),
+			(6,'PO Finalizada'),
+			(7,'Licitación cancelada'),
+			(8,'Licitación en borrador'),
+			(9,'Licitación en proceso. No se generaron POs'),
+			(10,'Licitación en proceso. Se pidio presupuestos a proveedores'),
+			(11,'Licitación en proceso. Se espera aprobacion de las POs'),
+			(12,'Licitación en proceso. Se esperan los materiales del proveedor'),
+			(13,'Licitación finalizada')
+			]
+
+	compras_status_index = fields.Selection(selection=status_index,compute=_compute_compras_status,search=_po_status_search)
 	compras_status = fields.Char('Estado Gestion Compras',compute=_compute_compras_status)
 	brand_id = fields.Many2one('product.brand',string='Marca',related="product_id.product_tmpl_id.product_brand_id")
 	categ_id = fields.Many2one('product.category',string='Categoria',related="product_id.product_tmpl_id.categ_id")
