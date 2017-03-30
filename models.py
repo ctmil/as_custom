@@ -435,7 +435,7 @@ class purchase_request_line(models.Model):
 	def _purchase_status_search(self, operator, operand):
 		list_ids  = []
 		if operand == '0':
-			rq_ids = self.search([('state','=','approved')])
+			rq_ids = self.env['purchase.request'].search([('state','=','approved')])
 			for rq in rq_ids:
 				rql_ids = rq.line_ids
 				for rql in rql_ids:
