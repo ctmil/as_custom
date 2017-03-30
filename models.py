@@ -626,7 +626,7 @@ class purchase_request_line(models.Model):
 			(10,'Licitación en proceso. Se pidio presupuestos a proveedores'),
 			(11,'Licitación en proceso. Se espera aprobacion de las POs'),
 			(12,'Licitación en proceso. Se esperan los materiales del proveedor'),
-			(13,'Licitación finalizada')
+			(13,'Licitación finalizada'),
 			(14,'Check admin')
 			]
 
