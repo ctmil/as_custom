@@ -416,7 +416,48 @@ class purchase_request_line(models.Model):
                                         vals['stock_valle_soleado'] = qty_location
                 return super(purchase_request_line, self).write(vals)
 	
+	@api.one
+	def _compute_compras_status(self):
+		return_value = ''
+		if self.purchase_lines:
+			value = 0
+			for line in self.purchase_lines:
+				if line.order_id.state == 'cancel':
+					if value < 1:
+						value = 1 
+				if line.order_id.state == 'draft':
+					if value < 2:
+						value = 2
+				if line.order_id.state == 'sent':
+					if value < 3:
+						value = 3
+				if line.order_id.state == 'to approve':
+					if value < 4:
+						value = 4 
+				if line.order_id.state == 'purchase':
+					if value < 5:
+						value = 5
+				if line.order_id.state == 'done':
+					if value < 6:
+						value = 6
+			mapping_state = {
+				1: 'cancelada',
+				2: 'borrador',
+				3: 'enviada a proveedor',
+				4: 'esperando aprobación',
+				5: 'esperando materiales del proveedor',
+				6: 'finalizada',
+				}				
+			return_value = 'Se generaron POs. Su estado es ' + mapping_state[value]
+		else:
+			if self.requisition_lines:
+				return_value = 'Se generó licitación'
+			else:
+				return_value = 'Please check with admin'	
+		self.compras_status = return_value 
 
+
+	compras_status = fields.Char('Estado Gestion Compras',compute=_compute_compras_status)
 	brand_id = fields.Many2one('product.brand',string='Marca',related="product_id.product_tmpl_id.product_brand_id")
 	categ_id = fields.Many2one('product.category',string='Categoria',related="product_id.product_tmpl_id.categ_id")
 	line_status = fields.Selection(selection=[('not_match_delivery','Entregas no coinciden'),('match_delivery','Entregas coinciden'),\
