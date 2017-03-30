@@ -438,7 +438,32 @@ class purchase_request_line(models.Model):
 			if operand in ['1','2','3','4','5','6']:
 				rql_ids = self.search([('purchase_lines','!=',None)])
 				for rql in rql_ids:
+					if rql.requisition_lines:
+						continue
+					value = 0
 					for purchase_line in rql.purchase_lines:
+						if purchase_line.state == 'cancel':
+							if value < 1:
+								value = 1
+						if purchase_line.state == 'draft':
+							if value < 2:
+								value = 2
+						if purchase_line.state == 'sent':
+							if value < 3:
+								value = 3
+						if purchase_line.state == 'to approve':
+							if value < 4:
+								value = 4
+						if purchase_line.state == 'purchase':
+							if value < 5:
+								value = 5
+						if purchase_line.state == 'done':
+							if value < 6:
+								value = 6
+						
+					if str(value) == operand:
+						list_ids.append(rql.id)
+						"""
 						if operand == '1':
 							if purchase_line.state == 'cancel':
 								list_ids.append(rql.id)	
@@ -457,6 +482,7 @@ class purchase_request_line(models.Model):
 						if operand == '6':
 							if purchase_line.state == 'done':
 								list_ids.append(rql.id)	
+						"""
 			else:
 				rql_ids = self.search([('requisition_lines','!=',None)])
 				for line in rql_ids:
