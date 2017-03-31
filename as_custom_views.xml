@@ -84,11 +84,63 @@
             </field>
         </record>
 
+        <record id="purchase_request_line_to_bid_search_as_custom" model="ir.ui.view">
+            <field name="name">purchase.request.line.to.bid.search.as.custom</field>
+            <field name="model">purchase.request.line</field>
+            <field name="inherit_id" ref="purchase_request_to_requisition.purchase_request_line_search"/>
+            <field name="arch" type="xml">
+		<filter name="requisition_state_none" position="attributes">
+			<attribute name="invisible">1</attribute>
+		</filter>
+		<filter name="requisition_state_draft" position="attributes">
+			<attribute name="invisible">1</attribute>
+		</filter>
+		<filter name="requisition_state_in_progress" position="attributes">
+			<attribute name="invisible">1</attribute>
+		</filter>
+		<filter name="requisition_state_done" position="attributes">
+			<attribute name="invisible">1</attribute>
+		</filter>
+            </field>
+	</record>
+
+        <record id="purchase_request_line_to_rfq_search_as_custom" model="ir.ui.view">
+            <field name="name">purchase.request.line.to.rfq.search.as.custom</field>
+            <field name="model">purchase.request.line</field>
+            <field name="inherit_id" ref="purchase_request_to_rfq.purchase_request_line_search"/>
+            <field name="arch" type="xml">
+		<filter name="purchase_state_none" position="attributes">
+			<attribute name="invisible">1</attribute>
+		</filter>
+		<filter name="purchase_state_draft" position="attributes">
+			<attribute name="invisible">1</attribute>
+		</filter>
+		<filter name="purchase_state_confirmed" position="attributes">
+			<attribute name="invisible">1</attribute>
+		</filter>
+		<filter name="purchase_state_done" position="attributes">
+			<attribute name="invisible">1</attribute>
+		</filter>
+            </field>
+	</record>
+
         <record id="purchase_request_line_search_as_custom" model="ir.ui.view">
             <field name="name">purchase.request.line.search.as.custom</field>
             <field name="model">purchase.request.line</field>
             <field name="inherit_id" ref="purchase_request.purchase_request_line_search"/>
             <field name="arch" type="xml">
+		<filter name="request_state_draft" position="attributes">
+			<attribute name="invisible">1</attribute>
+		</filter>
+		<filter name="request_state_to_approve" position="attributes">
+			<attribute name="invisible">1</attribute>
+		</filter>
+		<filter name="request_state_approved" position="attributes">
+			<attribute name="invisible">1</attribute>
+		</filter>
+		<filter name="request_state_rejected" position="attributes">
+			<attribute name="invisible">1</attribute>
+		</filter>
 	        <filter name="request_state_draft" position="before">
                     <filter name="purchase_nothing" string="Sin Gestión de Compras" domain="[('compras_status_index','=','0')]" />
                     <filter name="po_cancelled" string="POs Canceladas" domain="[('compras_status_index','=','1')]" />
