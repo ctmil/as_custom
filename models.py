@@ -2,7 +2,7 @@
 
 from openerp import models, fields, api, _, tools
 from openerp.osv import osv
-from openerp.exceptions import except_orm, ValidationError
+from openerp.exceptions import except_orm, ValidationError, UserError
 from StringIO import StringIO
 import urllib2, httplib, urlparse, gzip, requests, json
 import openerp.addons.decimal_precision as dp
@@ -322,18 +322,18 @@ class purchase_order(models.Model):
 					account_analytic_id = self.env['account.analytic.account'].browse(line['account_analytic_id'])
 					product_id = line_obj.product_id
 					if account_analytic_id and not (self.account_analytic_id):
-						raise ValidationError('Es necesario ingresar la cuenta analitica de la orden')	
+						raise UserError('Es necesario ingresar la cuenta analitica de la orden')	
 					order_account_analytic_id = self.account_analytic_id
 					if not account_analytic_id.parent_id:
 						if account_analytic_id.id != order_account_analytic_id.id:
-							raise ValidationError('Cta analitica para el producto ' + product_id.name + '\nno se corresponde con cta analitica de la orden')	
+							raise UserError('Cta analitica para el producto ' + product_id.name + '\nno se corresponde con cta analitica de la orden')	
 					if order_account_analytic_id:
 						account_analytic = account_analytic_id
 						while account_analytic.parent_id:
 							account_analytic = account_analytic.parent_id
 						if account_analytic.id != order_account_analytic_id.id:
-							raise ValidationError('Cta analitica para el producto ' + product_id.name + '\nno se corresponde con cta analitica de la orden')	
-                return super(purchase_order, self).create(vals)
+							raise UserError('Cta analitica para el producto ' + product_id.name + '\nno se corresponde con cta analitica de la orden')	
+                return super(purchase_order, self).write(vals)
 		
 
 
