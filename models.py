@@ -329,6 +329,9 @@ class purchase_request_line(models.Model):
 			if not record.account_analytic_id:
 				raise exceptions.ValidationError('Es necesario ingresar la cuenta analítica de la orden')	
 		for record in self:
+			if not record.account_analytic_id and not record.account_analytic_id.parent_id:
+				if record.account_analytic_id.id != record.order_id.account_analytic_id:
+					raise exceptions.ValidationError('Cta analitica para el producto ' + record.product_id.name + '\nno se corresponde con cta analítica de la orden')	
 			if record.account_analytic_id and record.order_id.account_analytic_id:
 				account_analytic = record.account_analytic_id
 				while account_analytic.parent_id:
