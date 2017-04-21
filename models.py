@@ -119,6 +119,23 @@ class purchase_order_line(models.Model):
 					break
 		self.item_in_pr = return_value
 
+	@api.constrains('account_analytic_id')
+	def _check_account_analytic_id(self):
+		error_flag = False
+		for record in self:
+			if not record.account_analytic_id:
+				raise exceptions.ValidationError('Es necesario ingresar la cuenta analítica de la orden')	
+		for record in self:
+			if not record.account_analytic_id and not record.account_analytic_id.parent_id:
+				if record.account_analytic_id.id != record.order_id.account_analytic_id.id:
+					raise exceptions.ValidationError('Cta analitica para el producto ' + record.product_id.name + '\nno se corresponde con cta analítica de la orden')	
+			if record.account_analytic_id and record.order_id.account_analytic_id:
+				account_analytic = record.account_analytic_id
+				while account_analytic.parent_id:
+					account_analytic = account_analytic.parent_id
+				if account_analytic.id != record.order_id.account_analytic_id:
+					raise exceptions.ValidationError('Cta analitica para el producto ' + record.product_id.name + '\nno se corresponde con cta analítica de la orden')	
+
 	stock_location = fields.Integer('Stock Deposito',compute=_compute_stock)
 	stock_company = fields.Integer('Stock Empresa',compute=_compute_stock)
 	stock_valle_soleado = fields.Integer('Stock Valle Soleado',compute=_compute_stock_valle_soleado)
@@ -320,26 +337,6 @@ class res_company(models.Model):
 class purchase_request_line(models.Model):
 	_inherit = 'purchase.request.line'
 
-
-
-	@api.constrains('account_analytic_id')
-	def _check_account_analytic_id(self):
-		error_flag = False
-		for record in self:
-			if not record.account_analytic_id:
-				raise exceptions.ValidationError('Es necesario ingresar la cuenta analítica de la orden')	
-		for record in self:
-			if not record.account_analytic_id and not record.account_analytic_id.parent_id:
-				if record.account_analytic_id.id != record.order_id.account_analytic_id:
-					raise exceptions.ValidationError('Cta analitica para el producto ' + record.product_id.name + '\nno se corresponde con cta analítica de la orden')	
-			if record.account_analytic_id and record.order_id.account_analytic_id:
-				account_analytic = record.account_analytic_id
-				while account_analytic.parent_id:
-					account_analytic = account_analytic.parent_id
-				if account_analytic.id != record.order_id.account_analytic_id:
-					raise exceptions.ValidationError('Cta analitica para el producto ' + record.product_id.name + '\nno se corresponde con cta analítica de la orden')	
-					
-							
 
 
 	@api.one
