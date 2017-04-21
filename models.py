@@ -320,7 +320,7 @@ class purchase_order(models.Model):
 				line = line[2]
 				if 'account_analytic_id' in line.keys():
 					account_analytic_id = self.env['account.analytic.account'].browse(line['account_analytic_id'])
-					product_id = self.env['product.product'].browse(line['product_id'])
+					product_id = line_obj.product_id
 					if account_analytic_id and not (self.account_analytic_id):
 						raise ValidationError('Es necesario ingresar la cuenta analitica de la orden')	
 					order_account_analytic_id = self.account_analytic_id
