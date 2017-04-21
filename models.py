@@ -309,6 +309,7 @@ class purchase_order(models.Model):
 	user_deliver_to = fields.Many2one('res.users',string='Entregar a')
 	tender_id = fields.Many2one('purchase.requisition',string='Licitacion',compute=_compute_tender_id)
 	summary_ids = fields.One2many(comodel_name='purchase.order.line.summary',inverse_name='order_id')
+	account_analytic_id = fields.Many2one('account.analytic.account',string='Cuenta analítica',domain=[('parent_id','=',False)])	
 
 class res_company(models.Model):
 	_inherit = 'res.company'
@@ -318,6 +319,24 @@ class res_company(models.Model):
 
 class purchase_request_line(models.Model):
 	_inherit = 'purchase.request.line'
+
+
+
+	@api.constrains('account_analytic_id')
+	def _check_account_analytic_id(self):
+		error_flag = False
+		for record in self:
+			if not record.account_analytic_id:
+				raise exceptions.ValidationError('Es necesario ingresar la cuenta analítica de la orden')	
+		for record in self:
+			if record.account_analytic_id and record.order_id.account_analytic_id:
+				account_analytic = record.account_analytic_id
+				while account_analytic.parent_id:
+					account_analytic = account_analytic.parent_id
+				if account_analytic.id != record.order_id.account_analytic_id:
+					raise exceptions.ValidationError('Cta analitica para el producto ' + record.product_id.name + '\nno se corresponde con cta analítica de la orden')	
+					
+							
 
 
 	@api.one
