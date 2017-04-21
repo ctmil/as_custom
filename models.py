@@ -119,30 +119,6 @@ class purchase_order_line(models.Model):
 					break
 		self.item_in_pr = return_value
 
-	@api.model
-	def create(self,vals):
-		if 'account_analytic_id' in vals.keys() and 'order_id' in vals.keys() and 'product_id' in vals.keys():
-			account_analytic_id = self.env['account.analytic.account'].browse(vals['account_analytic_id'])
-			order = self.env['purchase.order'].browse(vals['order_id'])
-			product_id = self.env['product.product'].browse(vals['product_id'])
-			if account_analytic_id and not order.account_analytic_id:
-				raise ValidationError('Es necesario ingresar la cuenta analitica de la orden')	
-			if not account_analytic_id.parent_id:
-				if account_analytic_id.id != order.account_analytic_id.id:
-					raise ValidationError('Cta analitica para el producto ' + product_id.name + '\nno se corresponde con cta analitica de la orden')	
-			if order.account_analytic_id:
-				account_analytic = account_analytic_id
-				while account_analytic.parent_id:
-					account_analytic = account_analytic.parent_id
-				if account_analytic.id != order_id.account_analytic_id.id:
-					raise ValidationError('Cta analitica para el producto ' + product_id.name + '\nno se corresponde con cta analitica de la orden')	
-		
-		return super(purchase_order_line, self).create(vals)
-
-	@api.multi
-	def write(self,vals):
-		import pdb;pdb.set_trace()
-
 	stock_location = fields.Integer('Stock Deposito',compute=_compute_stock)
 	stock_company = fields.Integer('Stock Empresa',compute=_compute_stock)
 	stock_valle_soleado = fields.Integer('Stock Valle Soleado',compute=_compute_stock_valle_soleado)
@@ -311,7 +287,54 @@ class purchase_order(models.Model):
 				vals['user_deliver_to'] = company.user_deliver_to.id
 			else:
 				vals['user_deliver_to'] = self.env.context['uid']
+		if 'order_line' in vals.keys():
+			order_line = vals['order_line']
+			for line in order_line:
+				line = line[2]
+				if 'account_analytic_id' in line.keys() and 'product_id' in line.keys() and 'account_analytic_id' in vals.keys():
+					account_analytic_id = self.env['account.analytic.account'].browse(line['account_analytic_id'])
+					product_id = self.env['product.product'].browse(line['product_id'])
+					if account_analytic_id and not ('account_analytic_id' in vals.keys()):
+						raise ValidationError('Es necesario ingresar la cuenta analitica de la orden')	
+					order_account_analytic_id = self.env['account.analytic.account'].browse(vals['account_analytic_id'])
+					if not account_analytic_id.parent_id:
+						if account_analytic_id.id != order_account_analytic_id.id:
+							raise ValidationError('Cta analitica para el producto ' + product_id.name + '\nno se corresponde con cta analitica de la orden')	
+					if order_account_analytic_id:
+						account_analytic = account_analytic_id
+						while account_analytic.parent_id:
+							account_analytic = account_analytic.parent_id
+						if account_analytic.id != order_account_analytic_id.id:
+							raise ValidationError('Cta analitica para el producto ' + product_id.name + '\nno se corresponde con cta analitica de la orden')	
+		
+
                 return super(purchase_order, self).create(vals)
+
+	@api.multi
+	def write(self,vals):
+		if 'order_line' in vals.keys():
+			order_line = vals['order_line']
+			for line in order_line:
+				line_id = line[1]
+				line_obj = self.env['purchase.order.line'].browse(line_id)
+				line = line[2]
+				if 'account_analytic_id' in line.keys():
+					account_analytic_id = self.env['account.analytic.account'].browse(line['account_analytic_id'])
+					product_id = self.env['product.product'].browse(line['product_id'])
+					if account_analytic_id and not (self.account_analytic_id):
+						raise ValidationError('Es necesario ingresar la cuenta analitica de la orden')	
+					order_account_analytic_id = self.account_analytic_id
+					if not account_analytic_id.parent_id:
+						if account_analytic_id.id != order_account_analytic_id.id:
+							raise ValidationError('Cta analitica para el producto ' + product_id.name + '\nno se corresponde con cta analitica de la orden')	
+					if order_account_analytic_id:
+						account_analytic = account_analytic_id
+						while account_analytic.parent_id:
+							account_analytic = account_analytic.parent_id
+						if account_analytic.id != order_account_analytic_id.id:
+							raise ValidationError('Cta analitica para el producto ' + product_id.name + '\nno se corresponde con cta analitica de la orden')	
+                return super(purchase_order, self).create(vals)
+		
 
 
 	@api.multi
