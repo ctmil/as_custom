@@ -119,23 +119,34 @@ class purchase_order_line(models.Model):
 					break
 		self.item_in_pr = return_value
 
-	@api.constrains('account_analytic_id')
-	def _check_account_analytic_id(self):
-		error_flag = False
-		for record in self:
-			if not record.account_analytic_id:
-				raise exceptions.ValidationError('Es necesario ingresar la cuenta analítica de la orden')	
-		for record in self:
-			if not record.account_analytic_id and not record.account_analytic_id.parent_id:
-				if record.account_analytic_id.id != record.order_id.account_analytic_id.id:
-					raise exceptions.ValidationError('Cta analitica para el producto ' + record.product_id.name + '\nno se corresponde con cta analítica de la orden')	
-			if record.account_analytic_id and record.order_id.account_analytic_id:
-				account_analytic = record.account_analytic_id
+	@api.model
+	def create(self,vals):
+		if 'account_analytic_id' in vals.keys() and 'order_id' in vals.keys() and 'product_id' in vals.keys():
+			account_analytic_id = self.env['account.analytic.account'].browse(vals['account_analytic_id'])
+			order = self.env['purchase.order'].browse(vals['order_id'])
+			product_id = self.env['product.product'].browse(vals['product_id'])
+			if account_analytic_id and not order.account_analytic_id:
+				raise ValidationError('Es necesario ingresar la cuenta analitica de la orden')	
+			if not account_analytic_id.parent_id:
+				if account_analytic_id.id != order.account_analytic_id.id:
+					raise ValidationError('Cta analitica para el producto ' + product_id.name + '\nno se corresponde con cta analitica de la orden')	
+			if order.account_analytic_id:
+				account_analytic = account_analytic_id
 				while account_analytic.parent_id:
 					account_analytic = account_analytic.parent_id
-				if account_analytic.id != record.order_id.account_analytic_id:
-					raise exceptions.ValidationError('Cta analitica para el producto ' + record.product_id.name + '\nno se corresponde con cta analítica de la orden')	
+				if account_analytic.id != order_id.account_analytic_id.id:
+					raise ValidationError('Cta analitica para el producto ' + product_id.name + '\nno se corresponde con cta analitica de la orden')	
+		
+		return super(purchase_order_line, self).create(vals)
 
+	@api.multi
+	def write(self,vals):
+		import pdb;pdb.set_trace()
+
+	stock_location = fields.Integer('Stock Deposito',compute=_compute_stock)
+	stock_company = fields.Integer('Stock Empresa',compute=_compute_stock)
+	stock_valle_soleado = fields.Integer('Stock Valle Soleado',compute=_compute_stock_valle_soleado)
+	item_in_pr = fields.Boolean('En PR',compute=_compute_item_in_pr)
 	stock_location = fields.Integer('Stock Deposito',compute=_compute_stock)
 	stock_company = fields.Integer('Stock Empresa',compute=_compute_stock)
 	stock_valle_soleado = fields.Integer('Stock Valle Soleado',compute=_compute_stock_valle_soleado)
@@ -150,6 +161,113 @@ class purchase_order(models.Model):
 	#	body_msg = self.name + ' fue enviado a proveedor.'
 	#	self.message_post(body=body_msg, subject='Mail enviado', subtype='mt_comment')
 	#	return super(purchase_order,self).action_rfq_send()
+
+	#@api.constrains('account_analytic_id','order_line')
+	#def _check_account_analytic_id(self):
+	#	for order in self:
+	#		for record in order.order_line:
+	#			if record.account_analytic_id and not order.account_analytic_id:
+	#				raise exceptions.except_orm('Es necesario ingresar la cuenta analítica de la orden')	
+	#		for record in order.order_line:
+	#			if record.account_analytic_id and not order.account_analytic_id.parent_id:
+	#				if record.account_analytic_id.id != order.account_analytic_id.id:
+	#					raise exceptions.Warning('Cta analitica para el producto ' + record.product_id.name + '\nno se corresponde con cta analítica de la orden')	
+	#			if record.account_analytic_id and order.account_analytic_id:
+	#				account_analytic = record.account_analytic_id
+	#				while account_analytic.parent_id:
+	#					account_analytic = account_analytic.parent_id
+	#				if account_analytic.id != order_id.account_analytic_id.id:
+	#					raise exceptions.except_orm('Cta analitica para el producto ' + record.product_id.name + '\nno se corresponde con cta analítica de la orden')	
+
+
+	@api.multi
+	def complete_request(self):
+		if len(self) > 1:
+                         raise exceptions.ValidationError('Debe seleccionar solo una PO')
+		vals_header = {
+			'request_id': self.request_id.id,
+			}
+		header_id = self.env['purchase.order.select.request'].create(vals_header)
+		request = self.request_id
+		for line in request.line_ids:
+			vals_line = {
+				'header_id': header_id.id,
+				'line_id': line.id,
+				'qty': line.product_qty,
+				'action': 'progress'
+				}
+			rq_line_id = self.env['purchase.order.select.request.line'].create(vals_line)
+		return {'type': 'ir.actions.act_window',
+                        'name': 'Completar requisicion',
+                        'res_model': 'purchase.order.select.request',
+                        'res_id': header_id.id,
+                        'view_type': 'form',
+                        'view_mode': 'form',
+                        'target': 'new',
+                        'nodestroy': True,
+                        }
+
+			
+			
+
+        @api.model
+        def create(self, vals):
+		company_id = vals.get('company_id',None)
+		if company_id:
+			company = self.env['res.company'].browse(company_id)
+			if company.purchase_notes:
+				vals['notes'] = company.purchase_notes
+			if company.user_deliver_to:
+				vals['user_deliver_to'] = company.user_deliver_to.id
+			else:
+				vals['user_deliver_to'] = self.env.context['uid']
+                return super(purchase_order, self).create(vals)
+
+
+	@api.multi
+	def print_quotation(self):
+		self.write({'state': "sent"})
+		return self.env['report'].get_action(self, 'as_custom.report_purchasequotation')
+
+
+	@api.one
+	def _compute_request_name(self):
+		return_value = ''
+		request_names = []
+		for line in self.order_line:
+			if line.purchase_request_lines:
+				for request_line in line.purchase_request_lines:
+					if request_line.request_id.name not in request_names:
+						request_names.append(request_line.request_id.name)
+		if request_names:
+			return_value = ','.join(request_names)
+		self.request_name = return_value
+
+	@api.one
+	def _compute_request_id(self):
+		return_value = None
+		for line in self.order_line:
+			if line.purchase_request_lines:
+				for request_line in line.purchase_request_lines:
+					if request_line.request_id:
+						return_value = request_line.request_id.id
+		self.request_id = return_value
+
+	@api.multi
+	def button_approve(self):
+		vals = {
+			'approver_id': self.env.context['uid']
+			}
+		self.write(vals)
+		return super(purchase_order, self).button_approve()
+		 
+
+	@api.multi
+	def button_confirm(self):
+		emails = []
+		if self.order_line:
+			emails = []
+			users = []
 
 
 	@api.multi
