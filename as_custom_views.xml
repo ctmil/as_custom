@@ -242,7 +242,9 @@
 			<field name="nro_remito" />
 			<field name="tipo_entrega" />
 			<field name="fecha_recepcion" />
+			<field name="date_planned_copy" />
 			<field name="user_deliver_to" />
+			<field name="picking_type_id_copy" readonly="1"/>
 			<!-- field name="request_name" / -->
 			<!--field name="request_ids" widget="many2many_tags"/>
 			<field name="request_id" / -->
@@ -259,7 +261,7 @@
 			<button name="complete_request" string="Finalizar Requerimiento" type="object" 
 				states="purchase,done"/>
 		</button>
-		<field name="order_line" position="after">
+		<!-- field name="order_line" position="after">
 			<field name="summary_ids" readonly="1">
 				<tree string="Summary">
 					<field name="product_id" />
@@ -271,17 +273,18 @@
 					<field name="price_subtotal" />
 				</tree>
 			</field>
+		</field -->
+		<field name="order_line" position="after">
+                        <label for="request_ids"/>
 			<field name="request_ids" readonly="1">
-				<group string="Requisiciones de origen">
-					<tree string="Requisiciones de origen">	
-				            <field name="name"/>
-			                    <field name="date_start"/>
-                			    <field name="requested_by"/>
-		                	    <field name="company_id" groups="base.group_multi_company" widget="selection"/>
-			                    <field name="origin"/>
-        	        		    <field name="state"/>
-					</tree>
-				</group>
+				<tree string="Requisiciones de origen">	
+			            <field name="name"/>
+			            <field name="date_start"/>
+                		    <field name="requested_by"/>
+		               	    <field name="company_id" groups="base.group_multi_company" widget="selection"/>
+			            <field name="origin"/>
+        	        	    <field name="state"/>
+				</tree>
 			</field>
 		</field>
             </field>

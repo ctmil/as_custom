@@ -465,6 +465,16 @@ class purchase_order(models.Model):
 			tender_ids = self.env['purchase.requisition'].search([('name','=',self.origin)])
 			if tender_ids:
 				self.tender_id = tender_ids[0].id	
+	
+	@api.one
+	def _compute_picking_type_id_copy(self):
+		if self.picking_type_id:
+			self.picking_type_id_copy = self.picking_type_id.id
+
+	@api.one
+	def _compute_date_planned_copy(self):
+		if self.date_planned:
+			self.date_planned_copy = self.date_planned
 
 
 	request_ids = fields.Many2many(comodel_name='purchase.request',relation='pos_to_prs',column1='order_id',column2='request_id',compute=_compute_request_ids)
@@ -477,6 +487,8 @@ class purchase_order(models.Model):
 			string='Tipo de Entrega')
 	purchase_notes = fields.Text('Notas de compra')
 	user_deliver_to = fields.Many2one('res.users',string='Entregar a')
+	picking_type_id_copy = fields.Many2one('stock.picking.type',string = 'Entregar a, ubicación', compute=_compute_picking_type_id_copy)
+	date_planned_copy = fields.Date('Fecha Prevista',compute=_compute_date_planned_copy)
 	tender_id = fields.Many2one('purchase.requisition',string='Licitacion',compute=_compute_tender_id)
 	summary_ids = fields.One2many(comodel_name='purchase.order.line.summary',inverse_name='order_id')
 	account_analytic_id = fields.Many2one('account.analytic.account',string='Cuenta analítica',domain=[('parent_id','=',False)])	
