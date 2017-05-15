@@ -244,8 +244,8 @@
 			<field name="fecha_recepcion" />
 			<field name="user_deliver_to" />
 			<!-- field name="request_name" / -->
-			<field name="request_ids" widget="many2many_tags"/>
-			<field name="request_id" />
+			<!--field name="request_ids" widget="many2many_tags"/>
+			<field name="request_id" / -->
 			<field name="tender_id" />
 			<field name="account_analytic_id" />
 		</field>
@@ -269,6 +269,16 @@
 					<field name="price_unit" />
 					<field name="discount" />
 					<field name="price_subtotal" />
+				</tree>
+			</field>
+			<field name="request_ids" readonly="1">
+				<tree string="Requisiciones de origen">
+			            <field name="name"/>
+		                    <field name="date_start"/>
+                		    <field name="requested_by"/>
+		                    <field name="company_id" groups="base.group_multi_company" widget="selection"/>
+		                    <field name="origin"/>
+                		    <field name="state"/>
 				</tree>
 			</field>
 		</field>
