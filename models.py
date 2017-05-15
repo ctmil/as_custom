@@ -477,7 +477,7 @@ class purchase_order(models.Model):
 			self.date_planned_copy = self.date_planned
 
 
-	request_ids = fields.Many2many(comodel_name='purchase.request',relation='pos_to_prs',column1='order_id',column2='request_id',compute=_compute_request_ids)
+	request_ids = fields.Many2many(comodel_name='purchase.request',relation='pos_to_prs',column1='order_id',column2='request_id',compute=_compute_request_ids,string="Requisiciones")
 	request_id = fields.Many2one('purchase.request',string='Requisicion',compute=_compute_request_id)
 	request_name = fields.Char(string='Requisicion',compute=_compute_request_name)
 	approver_id = fields.Many2one('res.users',string='Approver')
