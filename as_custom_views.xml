@@ -272,14 +272,16 @@
 				</tree>
 			</field>
 			<field name="request_ids" readonly="1">
-				<tree string="Requisiciones de origen">
-			            <field name="name"/>
-		                    <field name="date_start"/>
-                		    <field name="requested_by"/>
-		                    <field name="company_id" groups="base.group_multi_company" widget="selection"/>
-		                    <field name="origin"/>
-                		    <field name="state"/>
-				</tree>
+				<group string="Requisiciones de origen">
+					<tree string="Requisiciones de origen">	
+				            <field name="name"/>
+			                    <field name="date_start"/>
+                			    <field name="requested_by"/>
+		                	    <field name="company_id" groups="base.group_multi_company" widget="selection"/>
+			                    <field name="origin"/>
+        	        		    <field name="state"/>
+					</tree>
+				</group>
 			</field>
 		</field>
             </field>
