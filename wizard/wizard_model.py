@@ -16,7 +16,7 @@ _logger = logging.getLogger(__name__)
 class purchase_order_select_request(models.TransientModel):
         _name = 'purchase.order.select.request'
 
-        request_ids = fields.Many2many(comodel_name='purchase.request',relation='purchase.order.select.request.wiz',column1='order_id',column2='request_id',string='Requerimientos')
+        request_ids = fields.Many2many(comodel_name='purchase.request',relation='po_select_request_wiz',column1='order_id',column2='request_id',string='Requerimientos')
 	request_lines = fields.One2many(comodel_name='purchase.order.select.request.line',inverse_name='header_id',string='Lineas')
 	approve_entire_request = fields.Boolean(string='Aprueba toda la requisicion')
 
