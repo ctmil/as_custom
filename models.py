@@ -366,6 +366,17 @@ class purchase_order(models.Model):
 						return_value = request_line.request_id.id
 		self.request_id = return_value
 
+	@api.one
+	def _compute_request_ids(self):
+		return_value = None
+		request_ids = []
+		for line in self.order_line:
+			if line.purchase_request_lines:
+				for request_line in line.purchase_request_lines:
+					if request_line.request_id:
+						request_ids.append(request_line.request_id.id)
+		self.request_ids = [(6,0,request_ids)]
+
 	@api.multi
 	def button_approve(self):
 		vals = {
@@ -456,6 +467,7 @@ class purchase_order(models.Model):
 				self.tender_id = tender_ids[0].id	
 
 
+	request_ids = fields.Many2many(comodel_name='purchase.request',relation='pos_to_prs',column1='order_id',column2='request_id',compute=_compute_request_ids)
 	request_id = fields.Many2one('purchase.request',string='Requisicion',compute=_compute_request_id)
 	request_name = fields.Char(string='Requisicion',compute=_compute_request_name)
 	approver_id = fields.Many2one('res.users',string='Approver')

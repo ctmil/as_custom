@@ -244,6 +244,7 @@
 			<field name="fecha_recepcion" />
 			<field name="user_deliver_to" />
 			<!-- field name="request_name" / -->
+			<field name="request_ids" widget="many2many_tags"/>
 			<field name="request_id" />
 			<field name="tender_id" />
 			<field name="account_analytic_id" />
