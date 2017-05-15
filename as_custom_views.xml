@@ -246,6 +246,7 @@
 			<!-- field name="request_name" / -->
 			<field name="request_id" />
 			<field name="tender_id" />
+			<field name="account_analytic_id" />
 		</field>
 		<field name="product_qty" position="after">
 			<field name="stock_location" />
