@@ -215,7 +215,7 @@ class purchase_order(models.Model):
 			}
 		self.write(vals)
 		return super(purchase_order, self).button_approve()
-		 
+
 
 	@api.multi
 	def button_confirm(self):
@@ -253,7 +253,7 @@ class purchase_order(models.Model):
 			if user.has_group('purchase.group_purchase_manager') and user.notify_email != 'none':
 	                        emails.append([user.email,self.name,user.name])
 				user.notify_info(message='La orden '+self.name+' fue confirmada',title='Orden '+self.name+' confirmada')
-			
+
                 if emails:
                         for email in emails:
                                 subject = 'La orden de compra ' + email[1] + ' fue confirmada'
@@ -673,6 +673,20 @@ class stock_move(models.Model):
 		po_id = self.env['purchase.order'].search([('name','=',self.origin)])
 		if po_id:
 			self.po_id = po_id.id
+
+	@api.one
+	def _compute_po_qty(self):
+		po = self.po_id
+		return_value  = 0
+		for line in po.order_line:
+			if line.product_id.id == self.product_id.id:
+				return_value = return_value + line.product_qty
+		self.original_po_qty = return_value
+
+	@api.one
+	def _compute_user_deliver_to(self):
+		if self.po_id:
+			self.user_deliver_to = self.po_id.user_deliver_to.id
 	
 	brand_id = fields.Many2one('product.brand',string='Marca',related="product_id.product_tmpl_id.product_brand_id")
 	categ_id = fields.Many2one('product.category',string='Categoria',related="product_id.product_tmpl_id.categ_id")
@@ -681,6 +695,8 @@ class stock_move(models.Model):
 	request_name = fields.Char('Requerimientos',compute=_compute_request_name)
 	product_uom_qty_int = fields.Integer('Cantidad',compute=_compute_product_uom_qty_int)
 	po_id = fields.Many2one('purchase.order',string='Orden de Compra',compute='_compute_po_id')
+	original_po_qty = fields.Integer('Cant.Pedida Originalmente',compute='_compute_po_qty')
+	user_deliver_to = fields.Many2one('res.users',string='Usuario a Entregar',compute='_compute_user_deliver_to')
 
 class purchase_order_line(models.Model):
 	_inherit = 'purchase.order.line'

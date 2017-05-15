@@ -4,33 +4,33 @@
 <template id="report_purchasequotation_document">
     <t t-call="report.external_layout">
         <div class="page">
-
-	    <div class="row mt32 mb32" style="border-bottom: 1px solid black;">	
-		    <div t-if="o.company_id.parent_id" class="header">
-        		    <div class="col-xs-3">
-	                	<img t-if="o.company_id.parent_id.logo" t-att-src="'data:image/png;base64,%s' % o.company_id.parent_id.logo" style="max-height: 45px;"/>
-	        	    </div>
-	        	    <div class="col-xs-3" name="company_address">
-        	        	<div t-field="o.company_id.parent_id.partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: true}" />
-	        	    </div>
-		    </div>
-		    <div t-if="not o.company_id.parent_id" class="header">
-        		    <div class="col-xs-3">
-	                	<img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % o.company_id.logo" style="max-height: 45px;"/>
-	        	    </div>
-	        	    <div class="col-xs-3" name="company_address">
-        	        	<div t-field="o.company_id.partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: true}" />
-	        	    </div>
-		    </div>
-		    <div class="col-xs-6">
-		            <h1>
-				<span t-if="o.state == 'draft' or o.state == 'sent'">Pedido de Presupuesto </span>
-				<span t-if="o.state == 'purchase'">Orden de Compra </span>
-				<span t-field="o.name" />
-			    </h1>
-		    </div>
-	    </div>
-            <div class="oe_structure"/>
+    	    <div class="row mt32 mb32" style="border-bottom: 1px solid black;">	
+    		    <div t-if="o.company_id.parent_id" class="header">
+            		<div class="col-xs-3">
+    	               	<img t-if="o.company_id.parent_id.logo" t-att-src="'data:image/png;base64,%s' % o.company_id.parent_id.logo" style="max-height: 45px;"/>
+                    </div>
+    	        	<div class="col-xs-3" name="company_address">
+            	       <div t-field="o.company_id.parent_id.partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: true}" />
+    	        	</div>
+    		    </div>
+    		    <div t-if="not o.company_id.parent_id" class="header">
+            		<div class="col-xs-3">
+    	               	<img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % o.company_id.logo" style="max-height: 45px;"/>
+    	        	</div>
+    	        	<div class="col-xs-3" name="company_address">
+            	       <div t-field="o.company_id.partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: true}" />
+    	        	</div>
+    		    </div>
+    		    <div class="col-xs-6">
+                    <h1>
+    				    <span t-if="o.state == 'draft' or o.state == 'sent'">Pedido de Presupuesto </span>
+    				    <span t-if="o.state == 'purchase'">Orden de Compra </span>
+                        <span t-if="o.state == 'cancel'">O/C ANULADA </span>
+    				    <span t-field="o.name" />
+    			    </h1>
+    		    </div>
+    	    </div>
+        <div class="oe_structure"/>
 
             <div class="row mt32 mb32">
                 <div class="col-xs-4">
@@ -82,7 +82,7 @@
 		    </div>
 		</div>
                 <div class="col-xs-2">
-                    <strong>Ref.Proveedor</strong>
+                    <strong>Ref.Proveed.</strong>
 		    <div t-if="o.partner_ref">
 			    <span t-field="o.partner_ref" />
 		    </div>
@@ -241,8 +241,9 @@
 		    </div>
 		    <div class="col-xs-6">
 		            <h1>
-				<span t-if="o.state == 'draft' or o.state == 'sent'">Requisición de Obra</span>
+				<span t-if="o.state == 'draft' or o.state == 'sent'">Requisición de obra</span>
 				<span t-if="o.state == 'purchase'">Requisición de Obra</span>
+                <span t-if="o.state == 'cancel'">R/O ANULADA </span>
 				<span t-field="o.name" />
 			    </h1>
 		    </div>
@@ -299,7 +300,7 @@
 		    </div>
 		</div>
                 <div class="col-xs-2">
-                    <strong>Ref.Proveedor</strong>
+                    <strong>Ref.Proveed.</strong>
 		    <div t-if="o.partner_ref">
 			    <span t-field="o.partner_ref" />
 		    </div>
@@ -451,8 +452,6 @@
         </t>
     </t>
 </template>
-
-
 
 </data>
 </openerp>
