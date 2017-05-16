@@ -172,7 +172,7 @@ class purchase_order(models.Model):
 					'header_id': header_id.id,
 					'line_id': line.id,
 					'qty': line.product_qty,
-					'action': 'progress'
+					'action': line.estado_linea
 					}
 				rq_line_id = self.env['purchase.order.select.request.line'].create(vals_line)
 		return {'type': 'ir.actions.act_window',
