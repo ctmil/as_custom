@@ -43,6 +43,7 @@ class purchase_order_select_request(models.TransientModel):
 class purchase_order_select_request_line(models.TransientModel):
         _name = 'purchase.order.select.request.line'
 
+	request_id = fields.Many2one('purchase.request',string='Requisicion')
         header_id = fields.Many2one('purchase.order.select.request')
 	line_id = fields.Many2one('purchase.request.line',string='Linea')
 	qty = fields.Integer(string='Cantidad')

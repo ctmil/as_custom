@@ -14,6 +14,7 @@
                                         </group>
                                         <field name="request_lines">
                                                 <tree string="Lineas" create="false" delete="false" editable="bottom">
+                                                        <field name="request_id" readonly="1"/>
                                                         <field name="line_id" readonly="1"/>
 							<field name="qty" readonly="1" />
                                                         <field name="action" string="Accion"/>

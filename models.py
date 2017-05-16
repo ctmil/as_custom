@@ -168,6 +168,7 @@ class purchase_order(models.Model):
 			#request = self.request_id
 			for line in request.line_ids:
 				vals_line = {
+					'request_id': request_id.id,
 					'header_id': header_id.id,
 					'line_id': line.id,
 					'qty': line.product_qty,
