@@ -161,7 +161,7 @@ class purchase_order(models.Model):
 		if len(self) > 1:
                          raise exceptions.ValidationError('Debe seleccionar solo una PO')
 		vals_header = {
-			'request_ids': self.request_ids.ids,
+			'request_ids': [(6,0,self.request_ids.ids)],
 			}
 		header_id = self.env['purchase.order.select.request'].create(vals_header)
 		for request in self.request_ids:
