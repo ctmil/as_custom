@@ -319,7 +319,7 @@ class purchase_order(models.Model):
 				line_id = line[1]
 				line_obj = self.env['purchase.order.line'].browse(line_id)
 				line = line[2]
-				if 'account_analytic_id' in line.keys():
+				if line and 'account_analytic_id' in line.keys():
 					account_analytic_id = self.env['account.analytic.account'].browse(line['account_analytic_id'])
 					product_id = line_obj.product_id
 					if account_analytic_id and not (self.account_analytic_id):
