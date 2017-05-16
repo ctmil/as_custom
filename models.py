@@ -168,7 +168,7 @@ class purchase_order(models.Model):
 			#request = self.request_id
 			for line in request.line_ids:
 				vals_line = {
-					'request_id': request_id.id,
+					'request_id': request.id,
 					'header_id': header_id.id,
 					'line_id': line.id,
 					'qty': line.product_qty,
@@ -247,36 +247,6 @@ class purchase_order(models.Model):
 			emails = []
 			users = []
 
-
-	@api.multi
-	def complete_request(self):
-		if len(self) > 1:
-                         raise exceptions.ValidationError('Debe seleccionar solo una PO')
-		vals_header = {
-			'request_id': self.request_id.id,
-			}
-		header_id = self.env['purchase.order.select.request'].create(vals_header)
-		request = self.request_id
-		for line in request.line_ids:
-			vals_line = {
-				'header_id': header_id.id,
-				'line_id': line.id,
-				'qty': line.product_qty,
-				'action': 'progress'
-				}
-			rq_line_id = self.env['purchase.order.select.request.line'].create(vals_line)
-		return {'type': 'ir.actions.act_window',
-                        'name': 'Completar requisicion',
-                        'res_model': 'purchase.order.select.request',
-                        'res_id': header_id.id,
-                        'view_type': 'form',
-                        'view_mode': 'form',
-                        'target': 'new',
-                        'nodestroy': True,
-                        }
-
-			
-			
 
         @api.model
         def create(self, vals):
